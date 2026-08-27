@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mis Finanzas">
+<title>Mis Finanzas</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:80px;background:#f9fafb}
+header{padding:22px 18px 12px;display:flex;justify-content:space-between}
+header small{color:#6b7280;letter-spacing:1.5px}
+h1{margin:2px 0;font-size:28px}
+h2{margin:8px 0 15px}
+h3{margin:22px 16px 10px}
+button{font:inherit;cursor:pointer}
+.hero{margin:10px 16px;padding:22px;border-radius:22px;background:#111827;color:white}
+.hero span{color:#cbd5e1}
+.hero strong{display:block;font-size:36px;margin:5px 0 18px}
+.mini{display:flex;justify-content:space-between;font-size:13px}
+.mini b{display:block;color:white;font-size:15px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px}
+.quick button{border:0;border-radius:15px;padding:15px;font-weight:700}
+.quick button:first-child{background:#dcfce7}
+.quick button:last-child{background:#fee2e2}
+.section{padding:0 16px}
+.title{display:flex;justify-content:space-between;align-items:center}
+.title button{border:0;background:none;color:#2563eb}
+.card,.movement{background:white;margin:8px 16px;padding:15px;border-radius:16px;box-shadow:0 2px 8px #0001}
+.movement{display:flex;justify-content:space-between;gap:12px}
+.movement small{display:block;color:#6b7280;margin-top:4px}
+.green{color:#15803d}.red{color:#b91c1c}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid small{color:#6b7280}.grid b{display:block;margin-top:4px}
+.wide{width:calc(100% - 32px);margin:8px 16px;padding:14px;border:0;border-radius:14px;background:white;box-shadow:0 2px 8px #0001;text-align:left;font-weight:700}
+.empty{text-align:center;color:#6b7280;padding:25px 16px}
+.screen{display:none}.screen.active{display:block}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:70px;background:white;border-top:1px solid #ddd;display:flex;z-index:5}
+nav button{flex:1;border:0;background:none;color:#4b5563;font-size:20px}
+nav small{display:block;font-size:9px}
+.modal{position:fixed;inset:0;background:#0008;z-index:10;display:flex;align-items:flex-end}
+.modal.hidden{display:none}
+.sheet{width:100%;max-width:520px;margin:auto 0 0;background:white;border-radius:24px 24px 0 0;padding:22px;max-height:90vh;overflow:auto}
+.close{float:right;border:0;background:#eee;border-radius:50%;width:34px;height:34px;font-size:22px}
+label{display:block;margin:12px 0 6px;font-weight:600}
+input,select{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:12px;font-size:16px}
+form button[type=submit]{width:100%;margin-top:18px;padding:14px;border:0;border-radius:13px;background:#111827;color:white;font-weight:700}
+.bar{height:8px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:#111827}
+.muted{color:#6b7280}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+<div>
+<small>MI CONTROL</small>
+<h1>Mis Finanzas</h1>
+</div>
+</header>
+
+<main>
+
+<!-- INICIO -->
+<section id="home" class="screen active">
+<div class="hero">
+<span>Disponible</span>
+<strong id="balance">$0</strong>
+<div class="mini">
+<span>Ingresos<b id="income">$0</b></span>
+<span>Gastos<b id="expense">$0</b></span>
+</div>
+</div>
+
+<div class="quick">
+<button onclick="openMovement('income')">＋ Ingreso</button>
+<button onclick="openMovement('expense')">－ Gasto</button>
+</div>
+
+<div class="title section">
+<h2>Últimos movimientos</h2>
+<button onclick="nav('movements')">Ver todos</button>
+</div>
+
+<div id="recent"></div>
+</section>
+
+<!-- MOVIMIENTOS -->
+<section id="movements" class="screen">
+<div class="title section">
+<h2>Movimientos</h2>
+<button onclick="openMovement('expense')">＋</button>
+</div>
+<div id="allMovements"></div>
+</section>
+
+<!-- TARJETAS -->
+<section id="cards" class="screen">
+<div class="title section">
+<h2>💳 Mis Tarjetas</h2>
+<button onclick="newCard()">＋</button>
+</div>
+
+<div id="cardsList"></div>
+
+<button class="wide" onclick="importSummary()">
+📥 Importar resumen
+</button>
+
+<h3>Resúmenes</h3>
+<div id="summaries"></div>
+</section>
+
+<!-- CUOTAS -->
+<section id="installments" class="screen">
+<h2 class="section">📅 Calendario de cuotas</h2>
+
+<div class="card">
+<div class="title">
+<span>Comprometido futuro</span>
+<strong id="future">$0</strong>
+</div>
+<p class="muted">Cuotas pendientes detectadas.</p>
+</div>
+
+<div id="installmentMonths"></div>
+</section>
+
+<!-- AUTO -->
+<section id="auto" class="screen">
+<div class="title section">
+<h2>🚗 Mi Auto</h2>
+<button onclick="carForm()">⚙️</button>
+</div>
+
+<div class="card">
+<div class="title">
+<span>Vehículo</span>
+<strong id="carName">Sin configurar</strong>
+</div>
+
+<div class="grid" style="margin-top:15px">
+<div><small>Patente</small><b id="carPlate">—</b></div>
+<div><small>Kilómetros</small><b id="carKm">—</b></div>
+</div>
+</div>
+
+<h3>Vencimientos</h3>
+<div id="deadlines"></div>
+
+<h3>Gastos del auto</h3>
+<div id="carExpenses"></div>
+</section>
+
+<!-- ESTADISTICAS -->
+<section id="stats" class="screen">
+<h2 class="section">📊 Estadísticas</h2>
+<div class="card">
+<div class="title">
+<span>Gastos totales</span>
+<strong id="statsTotal">$0</strong>
+</div>
+</div>
+<h3>Por categoría</h3>
+<div id="categories"></div>
+</section>
+
+<!-- CONFIGURACION -->
+<section id="settings" class="screen">
+<h2 class="section">⚙️ Configuración</h2>
+<button class="wide" onclick="carForm()">🚗 Datos del vehículo</button>
+<button class="wide" onclick="clearData()">🗑️ Borrar todos los datos</button>
+<p class="muted section">
+Los datos se almacenan localmente en este dispositivo.
+</p>
+</section>
+
+</main>
+
+<nav>
+<button onclick="nav('home')">⌂<small>Inicio</small></button>
+<button onclick="nav('movements')">⇄<small>Movimientos</small></button>
+<button onclick="nav('cards')">💳<small>Tarjetas</small></button>
+<button onclick="nav('installments')">📅<small>Cuotas</small></button>
+<button onclick="nav('auto')">🚗<small>Auto</small></button>
+<button onclick="nav('stats')">📊<small>Más</small></button>
+</nav>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+<div class="sheet">
+<button class="close" onclick="closeModal()">×</button>
+<h2 id="modalTitle"></h2>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<script>
+
+const KEY="misFinanzas";
+
+let data=JSON.parse(localStorage.getItem(KEY)||`
+{
+"income":[],
+"expenses":[],
+"cards":[],
+"summaries":[],
+"car":{
+"name":"",
+"plate":"",
+"km":"",
+"insurance":"",
+"vtv":""
+}
+}`);
+
+function save(){
+localStorage.setItem(KEY,JSON.stringify(data));
+render();
+}
+
+function money(n){
+return new Intl.NumberFormat("es-AR",{
+style:"currency",
+currency:"ARS",
+maximumFractionDigits:0
+}).format(n||0);
+}
+
+function nav(id){
+document.querySelectorAll(".screen")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+render();
+}
+
+function openModal(title,body){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalBody").innerHTML=body;
+document.getElementById("modal").classList.remove("hidden");
+}
+
+function closeModal(){
+document.getElementById("modal").classList.add("hidden");
+}
+
+function openMovement(type){
+
+openModal(
+type==="income"?"Nuevo ingreso":"Nuevo gasto",
+`
+<form id="movementForm">
+
+<label>Importe</label>
+<input name="amount" type="number" min="0" required>
+
+<label>Descripción</label>
+<input name="desc" required>
+
+${type==="expense"?`
+<label>Categoría</label>
+<select name="category">
+<option>Vivienda</option>
+<option>Servicios</option>
+<option>Supermercado</option>
+<option>Comida</option>
+<option>Auto</option>
+<option>Combustible</option>
+<option>Familia</option>
+<option>Tarjetas</option>
+<option>Extras</option>
+<option>Otros</option>
+</select>
+`:""}
+
+<label>Fecha</label>
+<input name="date" type="date"
+value="${new Date().toISOString().slice(0,10)}">
+
+<button type="submit">Guardar</button>
+
+</form>
+`
+);
+
+document.getElementById("movementForm").onsubmit=e=>{
+e.preventDefault();
+
+let f=new FormData(e.target);
+
+let item={
+id:Date.now(),
+amount:+f.get("amount"),
+desc:f.get("desc"),
+date:f.get("date"),
+category:f.get("category")||"Ingreso"
+};
+
+if(type==="income")
+data.income.push(item);
+else
+data.expenses.push(item);
+
+closeModal();
+save();
+};
+}
+
+function movementHTML(x,type){
+
+return `
+<div class="movement">
+<div>
+<b>${x.desc}</b>
+<small>${x.date}${x.category?" · "+x.category:""}</small>
+</div>
+<b class="${type==="income"?"green":"red"}">
+${type==="income"?"+":"-"}${money(x.amount)}
+</b>
+</div>`;
+}
+
+function newCard(){
+
+openModal(
+"Nueva tarjeta",
+`
+<form id="cardForm">
+
+<label>Nombre</label>
+<input name="name" placeholder="Mastercard Gold" required>
+
+<label>Últimos 4 dígitos</label>
+<input name="last4" maxlength="4">
+
+<label>Límite</label>
+<input name="limit" type="number">
+
+<label>Día de cierre</label>
+<input name="closeDay" type="number" min="1" max="31">
+
+<label>Día de vencimiento</label>
+<input name="dueDay" type="number" min="1" max="31">
+
+<button type="submit">Guardar tarjeta</button>
+</form>
+`
+);
+
+document.getElementById("cardForm").onsubmit=e=>{
+e.preventDefault();
+
+let f=new FormData(e.target);
+
+data.cards.push({
+id:Date.now(),
+name:f.get("name"),
+last4:f.get("last4"),
+limit:+f.get("limit")||0,
+closeDay:+f.get("closeDay")||0,
+dueDay:+f.get("dueDay")||0
+});
+
+closeModal();
+save();
+};
+}
+
+function importSummary(){
+
+if(!data.cards.length){
+alert("Primero agregá una tarjeta.");
+newCard();
+return;
+}
+
+openModal(
+"Importar resumen",
+`
+<form id="summaryForm">
+
+<label>Tarjeta</label>
+<select name="card">
+${data.cards.map(c=>
+`<option value="${c.id}">
+${c.name} ${c.last4?"•••• "+c.last4:""}
+</option>`).join("")}
+</select>
+
+<label>Período</label>
+<input name="period" placeholder="Agosto 2026" required>
+
+<label>Total</label>
+<input name="total" type="number" required>
+
+<label>Pago mínimo</label>
+<input name="minimum" type="number">
+
+<label>Vencimiento</label>
+<input name="due" type="date">
+
+<label>Archivo del resumen</label>
+<input name="file" type="file" accept=".pdf,image/*">
+
+<p class="muted">
+La próxima versión permitirá leer automáticamente los consumos del PDF o imagen.
+</p>
+
+<button type="submit">Guardar resumen</button>
+
+</form>
+`
+);
+
+document.getElementById("summaryForm").onsubmit=e=>{
+e.preventDefault();
+
+let f=new FormData(e.target);
+
+data.summaries.unshift({
+id:Date.now(),
+cardId:+f.get("card"),
+period:f.get("period"),
+total:+f.get("total"),
+minimum:+f.get("minimum")||0,
+due:f.get("due"),
+fileName:f.get("file")?.name||""
+});
+
+closeModal();
+save();
+};
+}
+
+function carForm(){
+
+openModal(
+"Datos del vehículo",
+`
+<form id="carForm">
+
+<label>Marca / modelo</label>
+<input name="name" value="${data.car.name}" placeholder="Renault Kangoo">
+
+<label>Patente</label>
+<input name="plate" value="${data.car.plate}">
+
+<label>Kilometraje</label>
+<input name="km" type="number" value="${data.car.km}">
+
+<label>Seguro</label>
+<input name="insurance" type="date" value="${data.car.insurance}">
+
+<label>VTV</label>
+<input name="vtv" type="date" value="${data.car.vtv}">
+
+<button type="submit">Guardar</button>
+</form>
+`
+);
+
+document.getElementById("carForm").onsubmit=e=>{
+e.preventDefault();
+
+let f=new FormData(e.target);
+
+data.car={
+name:f.get("name"),
+plate:f.get("plate"),
+km:f.get("km"),
+insurance:f.get("insurance"),
+vtv:f.get("vtv")
+};
+
+closeModal();
+save();
+};
+}
+
+function render(){
+
+let income=data.income.reduce((a,x)=>a+x.amount,0);
+let expense=data.expenses.reduce((a,x)=>a+x.amount,0);
+
+document.getElementById("income").textContent=money(income);
+document.getElementById("expense").textContent=money(expense);
+document.getElementById("balance").textContent=money(income-expense);
+document.getElementById("statsTotal").textContent=money(expense);
+
+let all=[
+...data.income.map(x=>({...x,type:"income"})),
+...data.expenses.map(x=>({...x,type:"expense"}))
+].sort((a,b)=>b.id-a.id);
+
+document.getElementById("recent").innerHTML=
+all.length
+?all.slice(0,5).map(x=>movementHTML(x,x.type)).join("")
+:`<div class="empty">Todavía no hay movimientos.</div>`;
+
+document.getElementById("allMovements").innerHTML=
+all.length
+?all.map(x=>movementHTML(x,x.type)).join("")
+:`<div class="empty">No hay movimientos.</div>`;
+
+renderCards();
+renderCar();
+renderStats();
+renderInstallments();
+}
+
+function renderCards(){
+
+document.getElementById("cardsList").innerHTML=
+data.cards.length
+?data.cards.map(c=>{
+
+let s=data.summaries.find(x=>x.cardId===c.id);
+
+return `
+<div class="card">
+
+<div class="title">
+<strong>${c.name}</strong>
+<span>•••• ${c.last4||"----"}</span>
+</div>
+
+<div class="grid" style="margin-top:15px">
+
+<div>
+<small>Último resumen</small>
+<b>${s?money(s.total):"—"}</b>
+</div>
+
+<div>
+<small>Vencimiento</small>
+<b>${s?.due||"—"}</b>
+</div>
+
+</div>
+
+</div>
+`;
+
+}).join("")
+:`<div class="empty">No hay tarjetas cargadas.</div>`;
+
+document.getElementById("summaries").innerHTML=
+data.summaries.length
+?data.summaries.map(s=>{
+
+let c=data.cards.find(x=>x.id===s.cardId);
+
+return `
+<div class="movement">
+<div>
+<b>${c?.name||"Tarjeta"} · ${s.period}</b>
+<small>Vence ${s.due||"—"}</small>
+</div>
+<b>${money(s.total)}</b>
+</div>
+`;
+
+}).join("")
+:`<div class="empty">No hay resúmenes.</div>`;
+}
+
+function renderInstallments(){
+
+let future=0;
+
+let rows=[];
+
+data.summaries.forEach(s=>{
+
+(s.transactions||[]).forEach(x=>{
+
+if(!x.installment)return;
+
+let p=x.installment.split("/");
+
+let current=+p[0];
+let total=+p[1];
+
+for(let i=current+1;i<=total;i++){
+
+future+=x.amount;
+
+rows.push({
+desc:x.desc,
+amount:x.amount,
+installment:i+"/"+total
+});
+
+}
+
+});
+
+});
+
+document.getElementById("future").textContent=money(future);
+
+document.getElementById("installmentMonths").innerHTML=
+rows.length
+?rows.map(x=>`
+<div class="movement">
+<div>
+<b>${x.desc}</b>
+<small>Cuota ${x.installment}</small>
+</div>
+<b>${money(x.amount)}</b>
+</div>
+`).join("")
+:`<div class="empty">Todavía no hay cuotas proyectadas.</div>`;
+}
+
+function renderCar(){
+
+document.getElementById("carName").textContent=
+data.car.name||"Sin configurar";
+
+document.getElementById("carPlate").textContent=
+data.car.plate||"—";
+
+document.getElementById("carKm").textContent=
+data.car.km?data.car.km+" km":"—";
+
+let d=[];
+
+if(data.car.insurance)
+d.push(["Seguro",data.car.insurance]);
+
+if(data.car.vtv)
+d.push(["VTV",data.car.vtv]);
+
+document.getElementById("deadlines").innerHTML=
+d.length
+?d.map(x=>`
+<div class="movement">
+<span>${x[0]}</span>
+<b>${x[1]}</b>
+</div>`).join("")
+:`<div class="empty">No hay vencimientos cargados.</div>`;
+
+let auto=data.expenses.filter(x=>
+x.category==="Auto"||x.category==="Combustible"
+);
+
+document.getElementById("carExpenses").innerHTML=
+auto.length
+?auto.map(x=>movementHTML(x,"expense")).join("")
+:`<div class="empty">No hay gastos del auto.</div>`;
+}
+
+function renderStats(){
+
+let map={};
+
+data.expenses.forEach(x=>{
+map[x.category]=(map[x.category]||0)+x.amount;
+});
+
+let max=Math.max(1,...Object.values(map));
+
+document.getElementById("categories").innerHTML=
+Object.keys(map).length
+?Object.entries(map)
+.sort((a,b)=>b[1]-a[1])
+.map(([k,v])=>`
+<div class="card">
+<div class="title">
+<span>${k}</span>
+<b>${money(v)}</b>
+</div>
+<div class="bar">
+<i style="width:${v/max*100}%"></i>
+</div>
+</div>
+`).join("")
+:`<div class="empty">Aún no hay gastos.</div>`;
+}
+
+function clearData(){
+
+if(confirm("¿Borrar todos los datos?")){
+localStorage.removeItem(KEY);
+location.reload();
+}
+}
+
+render();
+
+</script>
+</body>
+</html>
