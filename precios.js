@@ -400,23 +400,15 @@
 
   function render() {
 
-    document
-      .querySelectorAll(".screen")
-      .forEach(
-        x => x.classList.remove("active")
-      );
+    const active = document.querySelector(".screen.active");
 
-    const active =
-      document.querySelector(".screen.active");
+document
+  .querySelectorAll(".screen")
+  .forEach(x => x.classList.remove("active"));
 
-    if (
-      active &&
-      active.id === "prices"
-    ) {
-
-      section.classList.add("active");
-
-    }
+if (active) {
+  active.classList.add("active");
+}
 
     document.querySelector("#pfCount")
       .textContent =
