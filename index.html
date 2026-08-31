@@ -2,68 +2,554 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>Mis Finanzas V4</title>
+<title>Mis Finanzas</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f4f5f7;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:85px}
-.app{max-width:560px;margin:auto;min-height:100vh}
-header{padding:22px 18px 10px;display:flex;justify-content:space-between;align-items:center}
-header small{color:#6b7280;letter-spacing:2px}
-h1{font-size:34px;margin:3px 0}
-h2{font-size:25px;margin:14px 16px}
-h3{margin:22px 16px 10px}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.icon{border:0;background:transparent;font-size:22px;padding:8px}
-.hero{margin:8px 16px;padding:24px;border-radius:25px;background:#111827;color:white}
-.hero small{color:#cbd5e1}
-.balance{display:block;font-size:46px;font-weight:800;margin:5px 0 20px}
-.twocol{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.twocol span{color:#cbd5e1}
-.twocol b{display:block;color:white;margin-top:3px;font-size:18px}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px}
-.quick button{border:0;border-radius:18px;padding:18px;font-size:18px;font-weight:800}
-.income{background:#dcfce7;color:#166534}
-.expense{background:#fee2e2;color:#991b1b}
-.section{display:none}
-.section.active{display:block}
-.card,.movement{background:white;margin:9px 16px;padding:16px;border-radius:18px;box-shadow:0 2px 10px #0000000b}
-.head{display:flex;justify-content:space-between;align-items:center;padding-right:16px}
-.head h2{margin-bottom:8px}
-.head button{border:0;background:transparent;color:#2563eb;font-weight:700}
-.movement{display:flex;justify-content:space-between;align-items:center}
-.movement small{display:block;color:#6b7280;margin-top:4px}
-.amount{font-weight:800;white-space:nowrap}
-.amount.plus{color:#15803d}
-.amount.minus{color:#b91c1c}
-.empty{text-align:center;color:#6b7280;padding:28px 16px}
-.wide{width:calc(100% - 32px);margin:8px 16px;padding:14px;border:0;border-radius:14px;background:#eef2f7;color:#2563eb;font-weight:700}
-.card .wide{width:100%;margin:12px 0 0}
-.actions{display:flex;gap:7px;margin-top:12px}
-.actions button{flex:1;border:0;border-radius:11px;padding:10px;background:#f3f4f6;color:#2563eb}
-.bar{height:9px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:9px}
-.bar i{display:block;height:100%;width:0;background:#111827}
-nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);height:78px;background:white;border-top:1px solid #e5e7eb;display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
-nav button{border:0;background:white;color:#6b7280;font-size:20px}
-nav button.active{color:#2563eb}
-nav small{display:block;font-size:10px}
-.more{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 16px}
-.more button{border:0;background:white;border-radius:16px;padding:15px 5px;box-shadow:0 2px 8px #0001}
-.more span{display:block;font-size:24px}
-.more small{display:block;margin-top:5px;color:#374151}
-.modal{position:fixed;z-index:50;inset:0;background:#0008;display:flex;align-items:flex-end}
-.modal.hidden{display:none}
-.sheet{background:white;width:min(560px,100%);max-height:92vh;overflow:auto;border-radius:25px 25px 0 0;padding:20px 18px 30px}
-.close{float:right;border:0;border-radius:50%;width:38px;height:38px;background:#f3f4f6;font-size:24px}
-label{display:block;font-weight:700;margin:13px 0 6px}
-input,select,textarea{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:12px;background:white}
-textarea{min-height:90px}
-.submit{width:100%;margin-top:18px;padding:15px;border:0;border-radius:14px;background:#111827;color:white;font-weight:800}
-.toast{position:fixed;z-index:100;bottom:95px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:12px 17px;border-radius:12px;opacity:0;pointer-events:none}
-.toast.show{opacity:1}
+
+html,body{
+margin:0;
+padding:0;
+background:#f4f5f7;
+color:#111827;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+padding-bottom:95px;
+}
+
+button,input,select,textarea{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.app{
+width:100%;
+max-width:620px;
+margin:auto;
+min-height:100vh;
+}
+
+header{
+padding:25px 18px 12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header small{
+color:#6b7280;
+letter-spacing:2px;
+font-size:13px;
+}
+
+h1{
+font-size:38px;
+margin:3px 0;
+letter-spacing:-1px;
+}
+
+h2{
+font-size:27px;
+margin:18px 16px;
+}
+
+h3{
+font-size:21px;
+margin:25px 16px 10px;
+}
+
+.icon{
+border:0;
+background:transparent;
+font-size:28px;
+color:#2563eb;
+padding:8px;
+}
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+.hero{
+margin:10px 16px;
+padding:27px 25px;
+border-radius:27px;
+background:#111827;
+color:white;
+box-shadow:0 10px 25px #0002;
+}
+
+.hero small{
+color:#cbd5e1;
+font-size:17px;
+}
+
+.balance{
+display:block;
+font-size:50px;
+font-weight:850;
+margin:7px 0 25px;
+letter-spacing:-1px;
+}
+
+.twocol{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.twocol span{
+color:#cbd5e1;
+font-size:16px;
+}
+
+.twocol b{
+display:block;
+color:white;
+margin-top:4px;
+font-size:20px;
+}
+
+.quick{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:12px 16px;
+}
+
+.quick button{
+border:0;
+border-radius:19px;
+padding:20px 10px;
+font-size:20px;
+font-weight:800;
+}
+
+.income{
+background:#dcfce7;
+color:#166534;
+}
+
+.expense{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding-right:16px;
+}
+
+.head h2{
+margin-bottom:10px;
+}
+
+.head button{
+border:0;
+background:transparent;
+color:#2563eb;
+font-weight:750;
+font-size:17px;
+}
+
+.card,.movement{
+background:white;
+margin:10px 16px;
+padding:18px;
+border-radius:19px;
+box-shadow:0 3px 15px #0000000b;
+}
+
+.movement{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+}
+
+.movement small{
+display:block;
+color:#6b7280;
+margin-top:5px;
+}
+
+.amount{
+font-weight:850;
+white-space:nowrap;
+font-size:18px;
+}
+
+.plus{
+color:#15803d;
+}
+
+.minus{
+color:#b91c1c;
+}
+
+.empty{
+text-align:center;
+color:#6b7280;
+padding:35px 16px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:9px 0;
+}
+
+.row b{
+text-align:right;
+}
+
+.wide{
+width:calc(100% - 32px);
+margin:8px 16px;
+padding:15px;
+border:0;
+border-radius:14px;
+background:#eef2f7;
+color:#2563eb;
+font-weight:750;
+}
+
+.card .wide{
+width:100%;
+margin:12px 0 0;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:12px;
+}
+
+.actions button{
+flex:1;
+border:0;
+border-radius:11px;
+padding:10px;
+background:#f3f4f6;
+color:#2563eb;
+}
+
+.danger{
+color:#b91c1c!important;
+}
+
+.bar{
+height:10px;
+background:#e5e7eb;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.bar i{
+display:block;
+height:100%;
+width:0;
+background:#111827;
+transition:.3s;
+}
+
+.tag{
+display:inline-block;
+padding:5px 9px;
+border-radius:9px;
+background:#eef2ff;
+color:#3730a3;
+font-size:12px;
+font-weight:700;
+}
+
+.deadline{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 0;
+border-bottom:1px solid #eee;
+}
+
+.deadline:last-child{
+border-bottom:0;
+}
+
+.good{
+color:#15803d;
+font-weight:700;
+}
+
+.warning{
+color:#b45309;
+font-weight:700;
+}
+
+.bad{
+color:#b91c1c;
+font-weight:700;
+}
+
+nav{
+position:fixed;
+z-index:40;
+bottom:0;
+left:0;
+right:0;
+height:82px;
+background:white;
+border-top:1px solid #e5e7eb;
+display:flex;
+overflow-x:auto;
+overflow-y:hidden;
+-webkit-overflow-scrolling:touch;
+padding-bottom:env(safe-area-inset-bottom);
+box-shadow:0 -4px 15px #0000000a;
+}
+
+nav::-webkit-scrollbar{
+display:none;
+}
+
+nav button{
+flex:0 0 88px;
+height:100%;
+border:0;
+background:white;
+color:#6b7280;
+font-size:23px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:4px;
+}
+
+nav button.active{
+color:#2563eb;
+}
+
+nav small{
+font-size:11px;
+font-weight:600;
+}
+
+.more{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+padding:10px 16px;
+}
+
+.more button{
+border:0;
+background:white;
+border-radius:18px;
+padding:20px 8px;
+box-shadow:0 3px 12px #0001;
+color:#111827;
+}
+
+.more span{
+display:block;
+font-size:30px;
+}
+
+.more small{
+display:block;
+margin-top:7px;
+font-weight:700;
+}
+
+.modal{
+position:fixed;
+z-index:100;
+inset:0;
+background:#0008;
+display:flex;
+align-items:flex-end;
+}
+
+.modal.hidden{
+display:none;
+}
+
+.sheet{
+background:white;
+width:min(620px,100%);
+max-height:94vh;
+overflow:auto;
+border-radius:27px 27px 0 0;
+padding:20px 18px 35px;
+}
+
+.close{
+float:right;
+border:0;
+border-radius:50%;
+width:40px;
+height:40px;
+background:#f3f4f6;
+font-size:25px;
+}
+
+label{
+display:block;
+font-weight:700;
+margin:14px 0 6px;
+}
+
+input,select,textarea{
+width:100%;
+padding:13px;
+border:1px solid #d1d5db;
+border-radius:12px;
+background:white;
+color:#111827;
+}
+
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+.submit{
+width:100%;
+margin-top:18px;
+padding:16px;
+border:0;
+border-radius:14px;
+background:#111827;
+color:white;
+font-weight:800;
+}
+
+.preview{
+width:100%;
+max-height:300px;
+object-fit:contain;
+border-radius:14px;
+margin-top:12px;
+background:#f3f4f6;
+}
+
+.toast{
+position:fixed;
+z-index:200;
+bottom:100px;
+left:50%;
+transform:translateX(-50%);
+background:#111827;
+color:white;
+padding:13px 18px;
+border-radius:13px;
+opacity:0;
+pointer-events:none;
+transition:.2s;
+max-width:90%;
+text-align:center;
+}
+
+.toast.show{
+opacity:1;
+}
+
+.statGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:10px 16px;
+}
+
+.statBox{
+background:white;
+border-radius:18px;
+padding:18px;
+box-shadow:0 2px 10px #0001;
+}
+
+.statBox small{
+color:#6b7280;
+display:block;
+}
+
+.statBox b{
+font-size:22px;
+display:block;
+margin-top:5px;
+}
+
+.productPrice{
+font-size:23px;
+font-weight:850;
+}
+
+.categoryLine{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+.categoryLine:last-child{
+border-bottom:0;
+}
+
+hr{
+border:0;
+border-top:1px solid #eee;
+margin:15px 0;
+}
+
+.mini{
+font-size:13px;
+color:#6b7280;
+}
+
+.fileBox{
+background:#f8fafc;
+border:1px dashed #cbd5e1;
+padding:15px;
+border-radius:14px;
+margin-top:10px;
+}
+
+.check{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.check input{
+width:auto;
+}
+
+@media(max-width:380px){
+nav button{
+flex-basis:78px;
+}
+
+h1{
+font-size:34px;
+}
+}
 </style>
 </head>
 
@@ -76,92 +562,153 @@ textarea{min-height:90px}
 <small>MI CONTROL</small>
 <h1>Mis Finanzas</h1>
 </div>
+
 <button class="icon" onclick="render()">↻</button>
 </header>
 
+
 <!-- INICIO -->
+
 <section id="home" class="section active">
 
 <div class="hero">
+
 <small>Disponible</small>
+
 <strong class="balance" id="balance">$0</strong>
 
 <div class="twocol">
-<span>Ingresos<b id="incomeTotal">$0</b></span>
-<span>Gastos<b id="expenseTotal">$0</b></span>
+
+<span>
+Ingresos
+<b id="incomeTotal">$0</b>
+</span>
+
+<span>
+Gastos
+<b id="expenseTotal">$0</b>
+</span>
+
 </div>
 </div>
+
 
 <div class="quick">
-<button class="income" onclick="movement('income')">＋ Ingreso</button>
-<button class="expense" onclick="movement('expense')">− Gasto</button>
+
+<button class="income" onclick="openMovement('income')">
+＋ Ingreso
+</button>
+
+<button class="expense" onclick="openMovement('expense')">
+− Gasto
+</button>
+
 </div>
 
+
 <div class="head">
+
 <h2>Últimos movimientos</h2>
-<button onclick="screen('movements')">Ver todos</button>
+
+<button onclick="screen('movements')">
+Ver todos
+</button>
+
 </div>
 
 <div id="recent"></div>
+
 </section>
+
 
 
 <!-- MOVIMIENTOS -->
+
 <section id="movements" class="section">
 
 <div class="head">
+
 <h2>Movimientos</h2>
-<button onclick="movement('expense')">＋ Agregar</button>
+
+<button onclick="openMovement('expense')">
+＋ Agregar
+</button>
+
 </div>
 
-<div class="card">
-<div class="twocol">
-<div>Ingresos<br><b id="movIncome">$0</b></div>
-<div>Gastos<br><b id="movExpense">$0</b></div>
+<div class="statGrid">
+
+<div class="statBox">
+<small>Ingresos</small>
+<b id="movIncome">$0</b>
 </div>
+
+<div class="statBox">
+<small>Gastos</small>
+<b id="movExpense">$0</b>
+</div>
+
 </div>
 
 <div id="allMovements"></div>
+
 </section>
 
 
+
 <!-- TARJETAS -->
+
 <section id="cards" class="section">
 
 <div class="head">
+
 <h2>💳 Tarjetas</h2>
-<button onclick="cardForm()">＋</button>
+
+<button onclick="cardForm()">＋ Agregar</button>
+
 </div>
 
 <div id="cardsList"></div>
 
 <h3>Resúmenes</h3>
+
 <div id="summaries"></div>
+
 </section>
 
 
+
 <!-- CUOTAS -->
+
 <section id="installments" class="section">
 
 <h2>📅 Cuotas</h2>
 
 <div class="card">
+
 <div class="row">
-<span>Comprometido</span>
+<span>Total comprometido</span>
 <b id="installmentTotal">$0</b>
 </div>
+
 </div>
 
 <div id="installmentList"></div>
+
 </section>
 
 
+
 <!-- PRESUPUESTO -->
+
 <section id="budget" class="section">
 
 <div class="head">
+
 <h2>💰 Presupuesto</h2>
+
 <button onclick="budgetForm()">⚙️</button>
+
 </div>
 
 <div class="card">
@@ -184,68 +731,101 @@ textarea{min-height:90px}
 <hr>
 
 <div class="row">
-<span>Presupuesto</span>
+<span>Presupuesto mensual</span>
 <b id="budgetLimit">$0</b>
 </div>
 
-<div class="bar"><i id="budgetBar"></i></div>
+<div class="bar">
+<i id="budgetBar"></i>
+</div>
 
 <p id="budgetText"></p>
+
 </div>
+
 
 <h3>Gastos fijos</h3>
 
-<button class="wide" onclick="fixedForm()">＋ Agregar gasto fijo</button>
+<button class="wide" onclick="fixedForm()">
+＋ Agregar gasto fijo
+</button>
 
 <div id="fixedList"></div>
+
 </section>
+
 
 
 <!-- RECURRENTES -->
+
 <section id="recurring" class="section">
 
 <div class="head">
+
 <h2>🔄 Recurrentes</h2>
+
 <button onclick="recurringForm()">＋</button>
+
 </div>
 
 <div id="recurringList"></div>
+
 </section>
+
 
 
 <!-- RECORDATORIOS -->
+
 <section id="reminders" class="section">
 
 <div class="head">
+
 <h2>🔔 Recordatorios</h2>
+
 <button onclick="reminderForm()">＋</button>
+
 </div>
 
 <div class="card">
+
 Próximos 30 días:
+
 <b id="reminderCount">0</b>
+
 </div>
 
 <div id="reminderList"></div>
+
 </section>
 
 
-<!-- MI AUTO -->
+
+<!-- AUTO -->
+
 <section id="auto" class="section">
 
 <div class="head">
+
 <h2>🚗 Mi Auto</h2>
+
 <button onclick="carExpenseForm()">＋ Gasto</button>
+
 </div>
+
 
 <div class="card">
 
 <div class="row">
+
 <span>Vehículo</span>
-<b id="carName">Sin configurar</b>
+
+<b id="carName">
+Sin configurar
+</b>
+
 </div>
 
-<div class="twocol" style="margin-top:15px">
+<div class="twocol">
 
 <div>
 <small>Patente</small>
@@ -261,41 +841,65 @@ Próximos 30 días:
 
 </div>
 
-<button class="wide" onclick="carForm()">⚙️ Configurar vehículo</button>
+
+<button class="wide" onclick="carForm()">
+⚙️ Configurar vehículo
+</button>
+
 
 <h3>Vencimientos</h3>
+
 <div id="carDeadlines"></div>
 
+
 <h3>Gastos del auto</h3>
+
 <div id="carExpenses"></div>
 
 </section>
 
 
+
 <!-- ESTADÍSTICAS -->
+
 <section id="stats" class="section">
 
 <h2>📊 Estadísticas</h2>
 
-<div class="card">
-<div class="twocol">
-<div>Gasto mensual<br><b id="statExpense">$0</b></div>
-<div>Movimientos<br><b id="statMoves">0</b></div>
+<div class="statGrid">
+
+<div class="statBox">
+<small>Gastos</small>
+<b id="statExpense">$0</b>
 </div>
+
+<div class="statBox">
+<small>Movimientos</small>
+<b id="statMoves">0</b>
+</div>
+
 </div>
 
 <h3>Por categoría</h3>
-<div id="categories"></div>
+
+<div class="card" id="categories"></div>
 
 </section>
 
 
+
 <!-- PRECIOS -->
+
 <section id="prices" class="section">
 
 <div class="head">
+
 <h2>🛒 Precios</h2>
-<button onclick="productForm()">＋</button>
+
+<button onclick="productForm()">
+＋ Producto
+</button>
+
 </div>
 
 <div id="products"></div>
@@ -305,41 +909,57 @@ Próximos 30 días:
 <div id="shopping"></div>
 
 <div class="card">
+
 <div class="row">
+
 <b>Total estimado</b>
+
 <b id="shoppingTotal">$0</b>
+
 </div>
+
 </div>
 
 </section>
 
 
+
 <!-- TICKETS -->
+
 <section id="tickets" class="section">
 
 <h2>📷 Tickets / PDF</h2>
 
 <div class="card">
 
-<label>📷 Foto del ticket</label>
+<label>📷 Fotografiar ticket</label>
 
 <input
+id="ticketImageInput"
 type="file"
 accept="image/*"
 capture="environment"
 onchange="ticketImage(event)"
 >
 
-<label>📄 Archivo PDF</label>
+<div id="ticketImageResult"></div>
+
+
+<label>📄 Cargar PDF</label>
 
 <input
+id="ticketPdfInput"
 type="file"
 accept="application/pdf"
 onchange="ticketPDF(event)"
 >
 
-<p>
-Podés cargar un ticket fotografiado o un PDF.
+<div id="ticketPdfResult"></div>
+
+<hr>
+
+<p class="mini">
+La aplicación guarda el archivo y permite cargar la información del ticket como gasto.
 </p>
 
 </div>
@@ -349,12 +969,19 @@ Podés cargar un ticket fotografiado o un PDF.
 </section>
 
 
+
 <!-- MÁS -->
+
 <section id="more" class="section">
 
 <h2>Más</h2>
 
 <div class="more">
+
+<button onclick="screen('budget')">
+<span>💰</span>
+<small>Presupuesto</small>
+</button>
 
 <button onclick="screen('recurring')">
 <span>🔄</span>
@@ -363,7 +990,7 @@ Podés cargar un ticket fotografiado o un PDF.
 
 <button onclick="screen('reminders')">
 <span>🔔</span>
-<small>Avisos</small>
+<small>Recordatorios</small>
 </button>
 
 <button onclick="screen('auto')">
@@ -388,14 +1015,26 @@ Podés cargar un ticket fotografiado o un PDF.
 
 </div>
 
-<button class="wide" onclick="exportData()">📤 Exportar datos</button>
+
+<button class="wide" onclick="exportData()">
+📤 Exportar datos
+</button>
+
 
 <label class="wide" style="text-align:center">
+
 📥 Importar datos
-<input type="file" accept=".json" hidden onchange="importData(event)">
+
+<input
+type="file"
+accept=".json"
+onchange="importData(event)"
+>
+
 </label>
 
-<button class="wide" onclick="clearData()">
+
+<button class="wide danger" onclick="clearData()">
 🗑️ Borrar todos los datos
 </button>
 
@@ -404,31 +1043,63 @@ Podés cargar un ticket fotografiado o un PDF.
 </div>
 
 
+
 <!-- NAVEGACIÓN -->
 
-<nav>
+<nav id="nav">
 
 <button data-screen="home" onclick="screen('home')">
-⌂<small>Inicio</small>
+⌂
+<small>Inicio</small>
 </button>
 
 <button data-screen="movements" onclick="screen('movements')">
-⇄<small>Movimientos</small>
+⇄
+<small>Movimientos</small>
 </button>
 
 <button data-screen="cards" onclick="screen('cards')">
-💳<small>Tarjetas</small>
+💳
+<small>Tarjetas</small>
 </button>
 
 <button data-screen="installments" onclick="screen('installments')">
-📅<small>Cuotas</small>
+📅
+<small>Cuotas</small>
 </button>
 
 <button data-screen="budget" onclick="screen('budget')">
-💰<small>Presupuesto</small>
+💰
+<small>Presupuesto</small>
+</button>
+
+<button data-screen="recurring" onclick="screen('recurring')">
+🔄
+<small>Recurrentes</small>
+</button>
+
+<button data-screen="auto" onclick="screen('auto')">
+🚗
+<small>Mi Auto</small>
+</button>
+
+<button data-screen="prices" onclick="screen('prices')">
+🛒
+<small>Precios</small>
+</button>
+
+<button data-screen="tickets" onclick="screen('tickets')">
+📷
+<small>Tickets</small>
+</button>
+
+<button data-screen="more" onclick="screen('more')">
+☰
+<small>Más</small>
 </button>
 
 </nav>
+
 
 
 <!-- MODAL -->
@@ -447,12 +1118,14 @@ Podés cargar un ticket fotografiado o un PDF.
 
 </div>
 
+
 <div id="toast" class="toast"></div>
+
 
 
 <script>
 
-const KEY="mis_finanzas_v4";
+const KEY="mis_finanzas_v5";
 
 const CATEGORIES=[
 "Vivienda",
@@ -467,6 +1140,7 @@ const CATEGORIES=[
 "Extras",
 "Otros"
 ];
+
 
 const DEFAULT={
 income:[],
@@ -497,15 +1171,13 @@ notes:""
 }
 };
 
-let data=load();
 
-
-function clone(x){
-return JSON.parse(JSON.stringify(x));
+function clone(obj){
+return JSON.parse(JSON.stringify(obj));
 }
 
 
-function id(){
+function makeId(){
 return Date.now().toString(36)+Math.random().toString(36).slice(2);
 }
 
@@ -515,21 +1187,27 @@ return new Date().toISOString().slice(0,10);
 }
 
 
-function money(n){
+function monthKey(date=today()){
+return String(date).slice(0,7);
+}
+
+
+function money(value){
 return new Intl.NumberFormat("es-AR",{
 style:"currency",
 currency:"ARS",
 maximumFractionDigits:0
-}).format(Number(n)||0);
+}).format(Number(value)||0);
 }
 
 
-function esc(x){
-return String(x??"")
+function esc(value){
+return String(value??"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;");
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
 
 
@@ -537,83 +1215,117 @@ function load(){
 
 try{
 
-const saved=localStorage.getItem(KEY);
+const raw=localStorage.getItem(KEY);
 
-if(saved)
-return normalize(JSON.parse(saved));
+if(!raw){
 
-}catch(e){}
+const old=localStorage.getItem("misFinanzasV2");
+
+if(old){
+
+const parsed=JSON.parse(old);
+
+return merge(clone(DEFAULT),parsed);
+
+}
 
 return clone(DEFAULT);
+
+}
+
+return merge(clone(DEFAULT),JSON.parse(raw));
+
+}catch(e){
+
+console.error(e);
+
+return clone(DEFAULT);
+
+}
+
 }
 
 
-function normalize(x){
+function merge(base,source){
 
-const d=clone(DEFAULT);
+if(!source || typeof source!=="object") return base;
 
-if(x && typeof x==="object"){
+Object.keys(base).forEach(key=>{
 
-Object.keys(d).forEach(k=>{
+if(source[key]!==undefined){
 
-if(x[k]!==undefined)
-d[k]=x[k];
+if(
+typeof base[key]==="object" &&
+base[key]!==null &&
+!Array.isArray(base[key])
+){
+
+base[key]={
+...base[key],
+...source[key]
+};
+
+}else{
+
+base[key]=source[key];
+
+}
+
+}
 
 });
 
-}
+return base;
 
-if(!Array.isArray(d.income))d.income=[];
-if(!Array.isArray(d.expenses))d.expenses=[];
-if(!Array.isArray(d.cards))d.cards=[];
-if(!Array.isArray(d.summaries))d.summaries=[];
-if(!Array.isArray(d.installments))d.installments=[];
-if(!Array.isArray(d.recurring))d.recurring=[];
-if(!Array.isArray(d.reminders))d.reminders=[];
-if(!Array.isArray(d.fixed))d.fixed=[];
-if(!Array.isArray(d.products))d.products=[];
-if(!Array.isArray(d.shopping))d.shopping=[];
-
-if(!d.budget)d.budget=clone(DEFAULT.budget);
-if(!d.budget.categories)d.budget.categories={};
-
-if(!d.car)d.car=clone(DEFAULT.car);
-
-return d;
 }
 
 
 function save(){
 
-data=normalize(data);
+localStorage.setItem(KEY,JSON.stringify(data));
 
-localStorage.setItem(
-KEY,
-JSON.stringify(data)
-);
-
-render();
-
-toast("Guardado");
 }
 
 
-function toast(text){
+function toast(message){
 
 const t=document.getElementById("toast");
 
-t.textContent=text;
+t.textContent=message;
 
 t.classList.add("show");
 
 setTimeout(()=>{
 t.classList.remove("show");
-},1300);
+},1800);
+
 }
 
 
-function closeModal(){
-document.getElementById("modal").classList.add("hidden");
+function screen(name){
+
+document.querySelectorAll(".section")
+.forEach(s=>s.classList.remove("active"));
+
+const target=document.getElementById(name);
+
+if(target) target.classList.add("active");
+
+document.querySelectorAll("nav button")
+.forEach(b=>{
+b.classList.toggle(
+"active",
+b.dataset.screen===name
+);
+});
+
+render();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
 
 
@@ -624,855 +1336,1830 @@ document.getElementById("modalTitle").textContent=title;
 document.getElementById("modalBody").innerHTML=html;
 
 document.getElementById("modal").classList.remove("hidden");
+
 }
 
 
-function screen(name){
+function closeModal(){
 
-document
-.querySelectorAll(".section")
-.forEach(x=>x.classList.remove("active"));
+document.getElementById("modal").classList.add("hidden");
 
-document.getElementById(name).classList.add("active");
+document.getElementById("modalBody").innerHTML="";
 
-document
-.querySelectorAll("nav button")
-.forEach(x=>{
-x.classList.toggle(
-"active",
-x.dataset.screen===name
+}
+
+
+
+function totalIncome(){
+
+return data.income.reduce(
+(sum,x)=>sum+Number(x.amount||0),
+0
 );
-});
 
-render();
 }
 
 
-/* INGRESOS / GASTOS */
+function totalExpenses(){
 
-function movement(type,existing=null){
+return data.expenses.reduce(
+(sum,x)=>sum+Number(x.amount||0),
+0
+);
 
-const income=type==="income";
+}
+
+
+function balance(){
+
+return totalIncome()-totalExpenses();
+
+}
+
+
+
+function movement(type){
+
+openMovement(type);
+
+}
+
+
+function openMovement(type){
+
+const isIncome=type==="income";
 
 openModal(
-existing?"Editar movimiento":income?"Nuevo ingreso":"Nuevo gasto",
+isIncome ? "Nuevo ingreso":"Nuevo gasto",
 `
-<form id="movementForm">
-
-<label>Importe</label>
-<input name="amount" type="number" min="0"
-value="${existing?.amount??""}" required>
 
 <label>Descripción</label>
-<input name="description"
-value="${esc(existing?.description)}"
-placeholder="${income?"Sueldo":"Compra"}"
-required>
 
-${income?"":`
+<input id="mDescription"
+placeholder="${isIncome?"Ej. Sueldo":"Ej. Supermercado"}">
+
+<label>Importe</label>
+
+<input
+id="mAmount"
+type="number"
+inputmode="decimal"
+placeholder="0">
+
+${!isIncome?`
+
 <label>Categoría</label>
 
-<select name="category">
+<select id="mCategory">
 
-${CATEGORIES.map(c=>`
-<option value="${esc(c)}"
-${existing?.category===c?"selected":""}>
-${esc(c)}
-</option>
-`).join("")}
+${CATEGORIES.map(c=>
+`<option>${esc(c)}</option>`
+).join("")}
 
 </select>
-`}
+
+`:``}
 
 <label>Fecha</label>
-<input name="date" type="date"
-value="${existing?.date||today()}" required>
 
-<button class="submit">Guardar</button>
+<input
+id="mDate"
+type="date"
+value="${today()}">
 
-</form>
-`);
+<label>Nota</label>
 
-document.getElementById("movementForm").onsubmit=e=>{
+<textarea
+id="mNote"
+placeholder="Opcional"></textarea>
 
-e.preventDefault();
+<button
+class="submit"
+onclick="saveMovement('${type}')">
 
-const f=new FormData(e.target);
+Guardar ${isIncome?"ingreso":"gasto"}
 
-const obj={
-id:existing?.id||id(),
-amount:Number(f.get("amount"))||0,
-description:f.get("description")||"",
-category:income?"Ingreso":f.get("category")||"Otros",
-date:f.get("date")||today()
-};
-
-const arr=income?data.income:data.expenses;
-
-const i=arr.findIndex(x=>x.id===obj.id);
-
-if(i>=0)arr[i]=obj;
-else arr.push(obj);
-
-closeModal();
-save();
-};
-}
-
-
-function editMovement(i,t){
-
-const arr=t==="income"?data.income:data.expenses;
-
-const item=arr.find(x=>x.id===i);
-
-if(item)movement(t,item);
-}
-
-
-function deleteMovement(i,t){
-
-if(!confirm("¿Eliminar movimiento?"))return;
-
-const arr=t==="income"?data.income:data.expenses;
-
-const index=arr.findIndex(x=>x.id===i);
-
-if(index>=0){
-arr.splice(index,1);
-save();
-}
-}
-
-
-/* TARJETAS */
-
-function cardForm(existing=null){
-
-openModal(
-existing?"Editar tarjeta":"Nueva tarjeta",
+</button>
 `
-<form id="cardForm">
+);
 
-<label>Nombre</label>
-<input name="name"
-value="${esc(existing?.name)}"
-placeholder="Visa Banco Nación"
-required>
-
-<label>Últimos 4 dígitos</label>
-<input name="last4" maxlength="4"
-value="${esc(existing?.last4)}">
-
-<label>Día de cierre</label>
-<input name="closing" type="number"
-value="${existing?.closing||""}">
-
-<label>Día de vencimiento</label>
-<input name="due" type="number"
-value="${existing?.due||""}">
-
-<button class="submit">Guardar tarjeta</button>
-
-</form>
-`);
-
-document.getElementById("cardForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
-
-const obj={
-id:existing?.id||id(),
-name:f.get("name"),
-last4:f.get("last4"),
-closing:Number(f.get("closing"))||0,
-due:Number(f.get("due"))||0
-};
-
-const i=data.cards.findIndex(x=>x.id===obj.id);
-
-if(i>=0)data.cards[i]=obj;
-else data.cards.push(obj);
-
-closeModal();
-save();
-};
 }
 
 
-function deleteCard(i){
+function saveMovement(type){
 
-if(!confirm("¿Eliminar tarjeta?"))return;
+const description=
+document.getElementById("mDescription").value.trim();
 
-data.cards=data.cards.filter(x=>x.id!==i);
+const amount=
+Number(document.getElementById("mAmount").value);
 
-data.summaries=data.summaries.filter(x=>x.cardId!==i);
+const date=
+document.getElementById("mDate").value||today();
 
-save();
-}
+if(!description){
 
+toast("Ingresá una descripción");
 
-/* RESUMEN */
-
-function summaryForm(existing=null){
-
-if(!data.cards.length){
-
-toast("Primero agregá una tarjeta");
 return;
+
 }
 
+if(!amount || amount<=0){
+
+toast("Ingresá un importe válido");
+
+return;
+
+}
+
+const item={
+id:makeId(),
+description,
+amount,
+date,
+note:document.getElementById("mNote").value.trim()
+};
+
+if(type==="income"){
+
+data.income.unshift(item);
+
+}else{
+
+item.category=
+document.getElementById("mCategory").value;
+
+data.expenses.unshift(item);
+
+}
+
+save();
+
+closeModal();
+
+render();
+
+toast("Movimiento guardado");
+
+}
+
+
+
+function movementHTML(item,type){
+
+const plus=type==="income";
+
+return `
+
+<div class="movement">
+
+<div>
+
+<strong>${esc(item.description)}</strong>
+
+<small>
+${esc(item.date||"")}
+${item.category?` · ${esc(item.category)}`:""}
+</small>
+
+</div>
+
+<div class="amount ${plus?"plus":"minus"}">
+
+${plus?"+":"−"}${money(item.amount)}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+
+function renderMovements(){
+
+const all=[
+
+...data.income.map(x=>({...x,type:"income"})),
+
+...data.expenses.map(x=>({...x,type:"expense"}))
+
+].sort((a,b)=>
+String(b.date).localeCompare(String(a.date))
+);
+
+const recent=all.slice(0,5);
+
+document.getElementById("recent").innerHTML=
+recent.length
+?recent.map(x=>movementHTML(x,x.type)).join("")
+:`<div class="empty">Todavía no hay movimientos.</div>`;
+
+
+document.getElementById("allMovements").innerHTML=
+all.length
+?all.map(x=>`
+
+<div class="card">
+
+<div class="movement"
+style="margin:0;padding:0;box-shadow:none">
+
+<div>
+
+<strong>${esc(x.description)}</strong>
+
+<small>
+${esc(x.date||"")}
+${x.category?` · ${esc(x.category)}`:""}
+</small>
+
+</div>
+
+<div class="amount ${x.type==="income"?"plus":"minus"}">
+
+${x.type==="income"?"+":"−"}${money(x.amount)}
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button onclick="editMovement('${x.type}','${x.id}')">
+Editar
+</button>
+
+<button
+class="danger"
+onclick="deleteMovement('${x.type}','${x.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay movimientos.</div>`;
+
+
+document.getElementById("movIncome").textContent=
+money(totalIncome());
+
+document.getElementById("movExpense").textContent=
+money(totalExpenses());
+
+}
+
+
+function editMovement(type,id){
+
+const list=
+type==="income"?data.income:data.expenses;
+
+const item=list.find(x=>x.id===id);
+
+if(!item)return;
+
 openModal(
-"Resumen de tarjeta",
+type==="income"?"Editar ingreso":"Editar gasto",
 `
-<form id="summaryForm">
 
-<label>Tarjeta</label>
+<label>Descripción</label>
 
-<select name="cardId">
+<input id="eDescription" value="${esc(item.description)}">
 
-${data.cards.map(c=>`
-<option value="${c.id}"
-${existing?.cardId===c.id?"selected":""}>
-${esc(c.name)}
-</option>
-`).join("")}
+<label>Importe</label>
+
+<input id="eAmount" type="number" value="${Number(item.amount)}">
+
+${type==="expense"?`
+
+<label>Categoría</label>
+
+<select id="eCategory">
+
+${CATEGORIES.map(c=>
+`<option ${c===item.category?"selected":""}>
+${esc(c)}
+</option>`
+).join("")}
 
 </select>
 
-<label>Período</label>
-<input name="period"
-value="${esc(existing?.period)}"
-placeholder="Agosto 2026">
+`:""}
 
-<label>Total</label>
-<input name="total" type="number"
-value="${existing?.total??""}" required>
+<label>Fecha</label>
 
-<label>Vencimiento</label>
-<input name="due" type="date"
-value="${existing?.due||""}">
+<input id="eDate" type="date" value="${esc(item.date)}">
 
-<label>Detalle de cuotas</label>
-<textarea name="installments">${esc(existing?.installments)}</textarea>
+<label>Nota</label>
 
-<button class="submit">Guardar resumen</button>
+<textarea id="eNote">${esc(item.note||"")}</textarea>
 
-</form>
-`);
+<button
+class="submit"
+onclick="updateMovement('${type}','${id}')">
+Guardar cambios
+</button>
+`
+);
 
-document.getElementById("summaryForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
-
-const obj={
-id:existing?.id||id(),
-cardId:f.get("cardId"),
-period:f.get("period"),
-total:Number(f.get("total"))||0,
-due:f.get("due"),
-installments:f.get("installments")
-};
-
-const i=data.summaries.findIndex(x=>x.id===obj.id);
-
-if(i>=0)data.summaries[i]=obj;
-else data.summaries.push(obj);
-
-closeModal();
-save();
-};
 }
 
 
-/* PRESUPUESTO */
+function updateMovement(type,id){
+
+const list=
+type==="income"?data.income:data.expenses;
+
+const item=list.find(x=>x.id===id);
+
+if(!item)return;
+
+const amount=Number(
+document.getElementById("eAmount").value
+);
+
+if(amount<=0){
+
+toast("Importe inválido");
+
+return;
+
+}
+
+item.description=
+document.getElementById("eDescription").value.trim();
+
+item.amount=amount;
+
+item.date=
+document.getElementById("eDate").value||today();
+
+item.note=
+document.getElementById("eNote").value.trim();
+
+if(type==="expense"){
+
+item.category=
+document.getElementById("eCategory").value;
+
+}
+
+save();
+
+closeModal();
+
+render();
+
+toast("Movimiento actualizado");
+
+}
+
+
+function deleteMovement(type,id){
+
+if(!confirm("¿Eliminar este movimiento?"))return;
+
+const key=type==="income"?"income":"expenses";
+
+data[key]=data[key].filter(x=>x.id!==id);
+
+save();
+
+render();
+
+toast("Movimiento eliminado");
+
+}
+
+
+
+function renderHome(){
+
+document.getElementById("balance").textContent=
+money(balance());
+
+document.getElementById("incomeTotal").textContent=
+money(totalIncome());
+
+document.getElementById("expenseTotal").textContent=
+money(totalExpenses());
+
+}
+
+
+
+function cardForm(){
+
+openModal(
+"Agregar tarjeta",
+`
+
+<label>Nombre</label>
+<input id="cardName" placeholder="Ej. Visa Banco Nación">
+
+<label>Límite</label>
+<input id="cardLimit" type="number" placeholder="0">
+
+<label>Día de cierre</label>
+<input id="cardClose" type="number" min="1" max="31">
+
+<label>Día de vencimiento</label>
+<input id="cardDue" type="number" min="1" max="31">
+
+<button class="submit" onclick="saveCard()">
+Guardar tarjeta
+</button>
+`
+);
+
+}
+
+
+function saveCard(){
+
+const name=
+document.getElementById("cardName").value.trim();
+
+if(!name){
+
+toast("Ingresá el nombre");
+
+return;
+
+}
+
+data.cards.push({
+id:makeId(),
+name,
+limit:Number(document.getElementById("cardLimit").value)||0,
+close:Number(document.getElementById("cardClose").value)||0,
+due:Number(document.getElementById("cardDue").value)||0
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Tarjeta guardada");
+
+}
+
+
+function renderCards(){
+
+const box=document.getElementById("cardsList");
+
+box.innerHTML=data.cards.length
+?data.cards.map(c=>`
+
+<div class="card">
+
+<div class="row">
+
+<strong>${esc(c.name)}</strong>
+
+<span class="tag">
+Tarjeta
+</span>
+
+</div>
+
+<div class="row">
+<span>Límite</span>
+<b>${money(c.limit)}</b>
+</div>
+
+<div class="row">
+<span>Cierre</span>
+<b>${c.close||"—"}</b>
+</div>
+
+<div class="row">
+<span>Vencimiento</span>
+<b>${c.due||"—"}</b>
+</div>
+
+<div class="actions">
+
+<button onclick="deleteItem('cards','${c.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay tarjetas cargadas.</div>`;
+
+
+
+document.getElementById("summaries").innerHTML=
+data.summaries.length
+?data.summaries.map(s=>`
+
+<div class="card">
+
+<div class="row">
+<strong>${esc(s.name)}</strong>
+<b>${money(s.amount)}</b>
+</div>
+
+<div class="mini">
+${esc(s.month||"")}
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay resúmenes cargados.</div>`;
+
+}
+
+
+
+function installmentForm(){
+
+openModal(
+"Agregar cuota",
+`
+
+<label>Descripción</label>
+<input id="iName" placeholder="Ej. Electrodoméstico">
+
+<label>Monto mensual</label>
+<input id="iAmount" type="number">
+
+<label>Cuotas totales</label>
+<input id="iTotal" type="number">
+
+<label>Cuotas pagadas</label>
+<input id="iPaid" type="number" value="0">
+
+<button class="submit" onclick="saveInstallment()">
+Guardar cuota
+</button>
+`
+);
+
+}
+
+
+function renderInstallments(){
+
+const list=document.getElementById("installmentList");
+
+const total=data.installments.reduce(
+(s,x)=>s+
+(Number(x.amount)||0)*
+Math.max(
+0,
+(Number(x.total)||0)-(Number(x.paid)||0)
+),
+0
+);
+
+document.getElementById("installmentTotal").textContent=
+money(total);
+
+
+list.innerHTML=data.installments.length
+?data.installments.map(x=>`
+
+<div class="card">
+
+<div class="row">
+
+<strong>${esc(x.name)}</strong>
+
+<b>${money(x.amount)}</b>
+
+</div>
+
+<div class="mini">
+${x.paid||0} de ${x.total||0} cuotas
+</div>
+
+<div class="actions">
+
+<button onclick="deleteItem('installments','${x.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`
+
+<div class="empty">
+
+No hay cuotas cargadas.
+
+<button class="wide" onclick="installmentForm()">
+＋ Agregar cuota
+</button>
+
+</div>
+
+`;
+
+}
+
+
+
+function saveInstallment(){
+
+const name=document.getElementById("iName").value.trim();
+
+const amount=Number(
+document.getElementById("iAmount").value
+);
+
+const total=Number(
+document.getElementById("iTotal").value
+);
+
+const paid=Number(
+document.getElementById("iPaid").value
+)||0;
+
+if(!name||amount<=0||total<=0){
+
+toast("Completá los datos");
+
+return;
+
+}
+
+data.installments.push({
+id:makeId(),
+name,
+amount,
+total,
+paid
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Cuota guardada");
+
+}
+
+
 
 function budgetForm(){
 
 openModal(
-"Presupuesto",
+"Configurar presupuesto",
 `
-<form id="budgetForm">
 
 <label>Presupuesto mensual</label>
 
-<input name="limit"
+<input
+id="bLimit"
 type="number"
-min="0"
-value="${data.budget.limit||0}">
+value="${Number(data.budget.limit)||0}">
 
-<h3>Límites por categoría</h3>
+<button
+class="submit"
+onclick="saveBudget()">
+Guardar presupuesto
+</button>
+`
+);
 
-${CATEGORIES.map(c=>`
-<label>${c}</label>
-<input name="cat_${esc(c)}"
-type="number"
-min="0"
-value="${data.budget.categories[c]||0}">
-`).join("")}
+}
 
-<button class="submit">Guardar</button>
 
-</form>
-`);
-
-document.getElementById("budgetForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
+function saveBudget(){
 
 data.budget.limit=
-Number(f.get("limit"))||0;
+Number(document.getElementById("bLimit").value)||0;
 
-data.budget.categories={};
-
-CATEGORIES.forEach(c=>{
-
-const value=
-Number(f.get("cat_"+c))||0;
-
-if(value>0)
-data.budget.categories[c]=value;
-
-});
+save();
 
 closeModal();
-save();
-};
+
+render();
+
+toast("Presupuesto actualizado");
+
 }
 
 
-/* GASTOS FIJOS */
+function renderBudget(){
 
-function fixedForm(existing=null){
+const key=monthKey();
+
+const inc=data.income
+.filter(x=>String(x.date).slice(0,7)===key)
+.reduce((s,x)=>s+Number(x.amount||0),0);
+
+const exp=data.expenses
+.filter(x=>String(x.date).slice(0,7)===key)
+.reduce((s,x)=>s+Number(x.amount||0),0);
+
+const limit=Number(data.budget.limit)||0;
+
+document.getElementById("budgetIncome").textContent=money(inc);
+
+document.getElementById("budgetSpent").textContent=money(exp);
+
+document.getElementById("budgetAvailable").textContent=
+money(inc-exp);
+
+document.getElementById("budgetLimit").textContent=
+money(limit);
+
+const percent=limit>0
+?Math.min(100,(exp/limit)*100)
+:0;
+
+document.getElementById("budgetBar").style.width=
+percent+"%";
+
+document.getElementById("budgetText").textContent=
+limit
+?exp>limit
+?`Superaste el presupuesto por ${money(exp-limit)}.`
+:`Te quedan ${money(limit-exp)} del presupuesto.`
+:"Configurá un presupuesto mensual para controlar tus gastos.";
+
+
+document.getElementById("fixedList").innerHTML=
+data.fixed.length
+?data.fixed.map(x=>`
+
+<div class="card">
+
+<div class="row">
+<strong>${esc(x.name)}</strong>
+<b>${money(x.amount)}</b>
+</div>
+
+<div class="mini">
+Día ${x.day||"—"} · ${esc(x.category||"Otros")}
+</div>
+
+<div class="actions">
+
+<button onclick="deleteItem('fixed','${x.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay gastos fijos.</div>`;
+
+}
+
+
+
+function fixedForm(){
 
 openModal(
-"Nuevo gasto fijo",
+"Agregar gasto fijo",
 `
-<form id="fixedForm">
 
 <label>Descripción</label>
-<input name="description"
-value="${esc(existing?.description)}"
-placeholder="Alquiler" required>
+<input id="fName" placeholder="Ej. Alquiler">
 
 <label>Importe</label>
-<input name="amount" type="number"
-value="${existing?.amount??""}" required>
+<input id="fAmount" type="number">
+
+<label>Día de vencimiento</label>
+<input id="fDay" type="number" min="1" max="31">
 
 <label>Categoría</label>
-<select name="category">
+
+<select id="fCategory">
 
 ${CATEGORIES.map(c=>`
-<option ${existing?.category===c?"selected":""}>
-${c}
-</option>
+<option>${esc(c)}</option>
 `).join("")}
 
 </select>
 
-<button class="submit">Guardar</button>
-</form>
-`);
+<button class="submit" onclick="saveFixed()">
+Guardar gasto fijo
+</button>
+`
+);
 
-document.getElementById("fixedForm").onsubmit=e=>{
+}
 
-e.preventDefault();
 
-const f=new FormData(e.target);
+function saveFixed(){
 
-const obj={
-id:existing?.id||id(),
-description:f.get("description"),
-amount:Number(f.get("amount"))||0,
-category:f.get("category")
-};
+const name=document.getElementById("fName").value.trim();
 
-const i=data.fixed.findIndex(x=>x.id===obj.id);
+const amount=Number(
+document.getElementById("fAmount").value
+);
 
-if(i>=0)data.fixed[i]=obj;
-else data.fixed.push(obj);
+if(!name||amount<=0){
+
+toast("Completá los datos");
+
+return;
+
+}
+
+data.fixed.push({
+id:makeId(),
+name,
+amount,
+day:Number(document.getElementById("fDay").value)||0,
+category:document.getElementById("fCategory").value
+});
+
+save();
 
 closeModal();
-save();
-};
+
+render();
+
+toast("Gasto fijo guardado");
+
 }
 
 
-function deleteFixed(i){
 
-data.fixed=data.fixed.filter(x=>x.id!==i);
-
-save();
-}
-
-
-/* RECURRENTES */
-
-function recurringForm(existing=null){
+function recurringForm(){
 
 openModal(
-"Movimiento recurrente",
+"Nuevo recurrente",
 `
-<form id="recForm">
 
 <label>Descripción</label>
-<input name="description"
-value="${esc(existing?.description)}"
-required>
+<input id="rName" placeholder="Ej. Netflix">
 
 <label>Importe</label>
-<input name="amount" type="number"
-value="${existing?.amount??""}" required>
+<input id="rAmount" type="number">
 
-<label>Tipo</label>
+<label>Frecuencia</label>
 
-<select name="type">
-
-<option value="expense"
-${existing?.type==="expense"?"selected":""}>
-Gasto
-</option>
-
-<option value="income"
-${existing?.type==="income"?"selected":""}>
-Ingreso
-</option>
-
+<select id="rFrequency">
+<option>Mensual</option>
+<option>Semanal</option>
+<option>Anual</option>
 </select>
 
-<label>Día del mes</label>
+<label>Próxima fecha</label>
+<input id="rDate" type="date" value="${today()}">
 
-<input name="day" type="number"
-min="1" max="31"
-value="${existing?.day||1}">
+<button class="submit" onclick="saveRecurring()">
+Guardar recurrente
+</button>
+`
+);
 
-<button class="submit">Guardar</button>
+}
 
-</form>
-`);
 
-document.getElementById("recForm").onsubmit=e=>{
+function saveRecurring(){
 
-e.preventDefault();
+const name=document.getElementById("rName").value.trim();
 
-const f=new FormData(e.target);
+const amount=Number(
+document.getElementById("rAmount").value
+);
 
-const obj={
-id:existing?.id||id(),
-description:f.get("description"),
-amount:Number(f.get("amount"))||0,
-type:f.get("type"),
-day:Number(f.get("day"))||1
-};
+if(!name||amount<=0){
 
-const i=data.recurring.findIndex(x=>x.id===obj.id);
+toast("Completá los datos");
 
-if(i>=0)data.recurring[i]=obj;
-else data.recurring.push(obj);
+return;
+
+}
+
+data.recurring.push({
+id:makeId(),
+name,
+amount,
+frequency:document.getElementById("rFrequency").value,
+date:document.getElementById("rDate").value
+});
+
+save();
 
 closeModal();
-save();
-};
+
+render();
+
+toast("Recurrente guardado");
+
 }
 
 
-function deleteRecurring(i){
+function renderRecurring(){
 
-data.recurring=
-data.recurring.filter(x=>x.id!==i);
+const box=document.getElementById("recurringList");
 
-save();
+box.innerHTML=data.recurring.length
+?data.recurring.map(x=>`
+
+<div class="card">
+
+<div class="row">
+
+<strong>${esc(x.name)}</strong>
+
+<b>${money(x.amount)}</b>
+
+</div>
+
+<div class="mini">
+${esc(x.frequency)} · Próximo: ${esc(x.date)}
+</div>
+
+<div class="actions">
+
+<button onclick="deleteItem('recurring','${x.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay gastos recurrentes.</div>`;
+
 }
 
 
-/* RECORDATORIOS */
 
-function reminderForm(existing=null){
+function reminderForm(){
 
 openModal(
-"Recordatorio",
+"Nuevo recordatorio",
 `
-<form id="remForm">
 
 <label>Descripción</label>
-<input name="description"
-value="${esc(existing?.description)}"
-placeholder="Pagar seguro" required>
+<input id="remName" placeholder="Ej. Renovar seguro">
 
 <label>Fecha</label>
-<input name="date" type="date"
-value="${existing?.date||today()}" required>
+<input id="remDate" type="date">
 
-<button class="submit">Guardar</button>
+<label>Nota</label>
+<textarea id="remNote"></textarea>
 
-</form>
-`);
+<button class="submit" onclick="saveReminder()">
+Guardar recordatorio
+</button>
+`
+);
 
-document.getElementById("remForm").onsubmit=e=>{
+}
 
-e.preventDefault();
 
-const f=new FormData(e.target);
+function saveReminder(){
 
-const obj={
-id:existing?.id||id(),
-description:f.get("description"),
-date:f.get("date"),
-done:existing?.done||false
-};
+const name=document.getElementById("remName").value.trim();
 
-const i=data.reminders.findIndex(x=>x.id===obj.id);
+const date=document.getElementById("remDate").value;
 
-if(i>=0)data.reminders[i]=obj;
-else data.reminders.push(obj);
+if(!name||!date){
+
+toast("Completá descripción y fecha");
+
+return;
+
+}
+
+data.reminders.push({
+id:makeId(),
+name,
+date,
+note:document.getElementById("remNote").value.trim()
+});
+
+save();
 
 closeModal();
-save();
-};
+
+render();
+
+toast("Recordatorio guardado");
+
 }
 
 
-function deleteReminder(i){
+function daysUntil(date){
 
-data.reminders=
-data.reminders.filter(x=>x.id!==i);
+const a=new Date(today()+"T00:00:00");
 
-save();
+const b=new Date(date+"T00:00:00");
+
+return Math.ceil(
+(b-a)/(1000*60*60*24)
+);
+
 }
 
 
-function toggleReminder(i){
+function renderReminders(){
 
-const x=data.reminders.find(x=>x.id===i);
+const list=data.reminders
+.map(x=>({...x,days:daysUntil(x.date)}))
+.sort((a,b)=>a.days-b.days);
 
-if(x)x.done=!x.done;
+const next=list.filter(x=>x.days>=0&&x.days<=30);
 
-save();
+document.getElementById("reminderCount").textContent=
+next.length;
+
+
+document.getElementById("reminderList").innerHTML=
+list.length
+?list.map(x=>`
+
+<div class="card">
+
+<div class="deadline">
+
+<div>
+
+<strong>${esc(x.name)}</strong>
+
+<div class="mini">
+${esc(x.date)}
+</div>
+
+</div>
+
+<div class="${
+x.days<0?"bad":
+x.days<=7?"warning":"good"
+}">
+
+${x.days<0
+?"Vencido"
+:x.days===0
+?"Hoy"
+:`${x.days} días`}
+
+</div>
+
+</div>
+
+${x.note?`
+<div class="mini">${esc(x.note)}</div>
+`:""}
+
+<div class="actions">
+
+<button onclick="deleteItem('reminders','${x.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay recordatorios.</div>`;
+
 }
 
 
-/* MI AUTO */
 
 function carForm(){
 
 const c=data.car;
 
 openModal(
-"Mi Auto",
+"Configurar Mi Auto",
 `
-<form id="carForm">
 
 <label>Vehículo</label>
-<input name="name"
-value="${esc(c.name)}"
-placeholder="Renault Kangoo">
+<input id="cName" value="${esc(c.name)}" placeholder="Ej. Renault Kangoo">
 
 <label>Patente</label>
-<input name="plate"
-value="${esc(c.plate)}">
+<input id="cPlate" value="${esc(c.plate)}">
 
-<label>Kilometraje</label>
-<input name="km" type="number"
-value="${esc(c.km)}">
+<label>KM actuales</label>
+<input id="cKm" value="${esc(c.km)}" type="number">
 
 <label>Seguro</label>
-<input name="insurance"
-value="${esc(c.insurance)}">
+<input id="cInsurance" value="${esc(c.insurance)}">
 
 <label>Vencimiento seguro</label>
-<input name="insuranceExpiry"
-type="date"
-value="${esc(c.insuranceExpiry)}">
+<input id="cInsuranceExpiry" type="date" value="${esc(c.insuranceExpiry)}">
 
 <label>VTV</label>
-<input name="vtv"
-value="${esc(c.vtv)}">
+<input id="cVtv" value="${esc(c.vtv)}">
 
 <label>Vencimiento VTV</label>
-<input name="vtvExpiry"
-type="date"
-value="${esc(c.vtvExpiry)}">
+<input id="cVtvExpiry" type="date" value="${esc(c.vtvExpiry)}">
 
-<label>Licencia / carnet</label>
-<input name="license"
-value="${esc(c.license)}">
+<label>Licencia / Carnet</label>
+<input id="cLicense" value="${esc(c.license)}">
 
 <label>Vencimiento licencia</label>
-<input name="licenseExpiry"
-type="date"
-value="${esc(c.licenseExpiry)}">
+<input id="cLicenseExpiry" type="date" value="${esc(c.licenseExpiry)}">
 
 <label>Notas</label>
-<textarea name="notes">${esc(c.notes)}</textarea>
+<textarea id="cNotes">${esc(c.notes)}</textarea>
 
-<button class="submit">
+<button class="submit" onclick="saveCar()">
 Guardar vehículo
 </button>
+`
+);
 
-</form>
-`);
-
-document.getElementById("carForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
-
-data.car={
-name:f.get("name")||"",
-plate:f.get("plate")||"",
-km:f.get("km")||"",
-insurance:f.get("insurance")||"",
-insuranceExpiry:f.get("insuranceExpiry")||"",
-vtv:f.get("vtv")||"",
-vtvExpiry:f.get("vtvExpiry")||"",
-license:f.get("license")||"",
-licenseExpiry:f.get("licenseExpiry")||"",
-notes:f.get("notes")||""
-};
-
-closeModal();
-save();
-};
 }
 
 
-/* GASTO AUTO */
+function saveCar(){
+
+data.car={
+name:document.getElementById("cName").value.trim(),
+plate:document.getElementById("cPlate").value.trim(),
+km:document.getElementById("cKm").value,
+insurance:document.getElementById("cInsurance").value.trim(),
+insuranceExpiry:document.getElementById("cInsuranceExpiry").value,
+vtv:document.getElementById("cVtv").value.trim(),
+vtvExpiry:document.getElementById("cVtvExpiry").value,
+license:document.getElementById("cLicense").value.trim(),
+licenseExpiry:document.getElementById("cLicenseExpiry").value,
+notes:document.getElementById("cNotes").value.trim()
+};
+
+save();
+
+closeModal();
+
+render();
+
+toast("Datos del auto guardados");
+
+}
+
+
 
 function carExpenseForm(){
 
 openModal(
 "Gasto del auto",
 `
-<form id="carExpenseForm">
 
-<label>Tipo</label>
+<label>Descripción</label>
+<input id="ceName" placeholder="Ej. Combustible">
 
-<select name="type">
+<label>Importe</label>
+<input id="ceAmount" type="number">
+
+<label>Categoría</label>
+
+<select id="ceCategory">
 <option>Combustible</option>
-<option>Seguro</option>
-<option>VTV</option>
-<option>Mantenimiento</option>
-<option>Patente</option>
+<option>Auto</option>
+<option>Servicios</option>
 <option>Otros</option>
 </select>
 
-<label>Importe</label>
-<input name="amount"
-type="number" min="0" required>
-
-<label>Kilometraje</label>
-<input name="km"
-type="number"
-value="${esc(data.car.km)}">
-
-<label>Descripción</label>
-<input name="description" required>
-
 <label>Fecha</label>
-<input name="date"
-type="date"
-value="${today()}">
+<input id="ceDate" type="date" value="${today()}">
 
-<button class="submit">Guardar gasto</button>
-
-</form>
-`);
-
-document.getElementById("carExpenseForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
-
-data.expenses.push({
-
-id:id(),
-
-amount:Number(f.get("amount"))||0,
-
-description:f.get("description"),
-
-category:"Auto",
-
-carType:f.get("type"),
-
-km:f.get("km"),
-
-date:f.get("date")
-
-});
-
-if(f.get("km"))
-data.car.km=f.get("km");
-
-closeModal();
-
-save();
-};
-}
-
-
-/* PRODUCTOS */
-
-function productForm(existing=null){
-
-openModal(
-existing?"Editar producto":"Nuevo producto",
-`
-<form id="productForm">
-
-<label>Producto</label>
-<input name="name"
-value="${esc(existing?.name)}"
-placeholder="Yerba" required>
-
-<label>Presentación</label>
-<input name="detail"
-value="${esc(existing?.detail)}"
-placeholder="1 kg">
-
-<label>Comercio</label>
-<input name="store"
-value="${esc(existing?.store)}">
-
-<label>Precio</label>
-<input name="price"
-type="number"
-value="${existing?.price??""}" required>
-
-<button class="submit">Guardar</button>
-
-</form>
-`);
-
-document.getElementById("productForm").onsubmit=e=>{
-
-e.preventDefault();
-
-const f=new FormData(e.target);
-
-const obj={
-id:existing?.id||id(),
-name:f.get("name"),
-detail:f.get("detail"),
-store:f.get("store"),
-price:Number(f.get("price"))||0,
-updated:today()
-};
-
-const i=data.products.findIndex(x=>x.id===obj.id);
-
-if(i>=0)data.products[i]=obj;
-else data.products.push(obj);
-
-closeModal();
-save();
-};
-}
-
-
-function deleteProduct(i){
-
-data.products=
-data.products.filter(x=>x.id!==i);
-
-data.shopping=
-data.shopping.filter(x=>x.productId!==i);
-
-save();
-}
-
-
-function addShopping(i){
-
-const item=
-data.shopping.find(x=>x.productId===i);
-
-if(item)item.quantity++;
-else data.shopping.push({
-id:id(),
-productId:i,
-quantity:1
-});
-
-save();
-}
-
-
-function removeShopping(i){
-
-const index=
-data.shopping.findIndex(x=>x.id===i);
-
-if(index<0)return;
-
-if(data.shopping[index].quantity>1)
-data.shopping[index].quantity--;
-else
-data.shopping.splice(index,1);
-
-save();
-}
-
-
-/* TICKETS */
-
-function ticketImage(event){
-
-const file=event.target.files[0];
-
-if(!file)return;
-
-document.getElementById("ticketResult").innerHTML=`
-
-<div class="card">
-
-<b>Ticket cargado correctamente</b>
-
-<p>${esc(file.name)}</p>
-
-<button class="wide"
-onclick="movement('expense')">
-💰 Crear gasto
+<button class="submit" onclick="saveCarExpense()">
+Guardar gasto
 </button>
+`
+);
+
+}
+
+
+function saveCarExpense(){
+
+const name=document.getElementById("ceName").value.trim();
+
+const amount=Number(
+document.getElementById("ceAmount").value
+);
+
+if(!name||amount<=0){
+
+toast("Completá los datos");
+
+return;
+
+}
+
+data.expenses.unshift({
+id:makeId(),
+description:name,
+amount,
+category:document.getElementById("ceCategory").value,
+date:document.getElementById("ceDate").value||today(),
+note:"Gasto registrado desde Mi Auto",
+car:true
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Gasto del auto guardado");
+
+}
+
+
+
+function deadlineHTML(label,date){
+
+if(!date){
+
+return `
+<div class="deadline">
+<span>${label}</span>
+<b>Sin configurar</b>
+</div>
+`;
+
+}
+
+const days=daysUntil(date);
+
+let cls="good";
+
+if(days<0)cls="bad";
+else if(days<=30)cls="warning";
+
+return `
+<div class="deadline">
+
+<div>
+
+<strong>${label}</strong>
+
+<div class="mini">${date}</div>
+
+</div>
+
+<div class="${cls}">
+
+${days<0
+?"Vencido"
+:days===0
+?"Hoy"
+:`${days} días`}
+
+</div>
 
 </div>
 `;
+
 }
+
+
+function renderCar(){
+
+const c=data.car;
+
+document.getElementById("carName").textContent=
+c.name||"Sin configurar";
+
+document.getElementById("carPlate").textContent=
+c.plate||"—";
+
+document.getElementById("carKm").textContent=
+c.km||"—";
+
+
+document.getElementById("carDeadlines").innerHTML=
+deadlineHTML("Seguro",c.insuranceExpiry)+
+deadlineHTML("VTV",c.vtvExpiry)+
+deadlineHTML("Licencia",c.licenseExpiry);
+
+
+const expenses=data.expenses
+.filter(x=>x.car);
+
+document.getElementById("carExpenses").innerHTML=
+expenses.length
+?expenses.map(x=>`
+
+<div class="movement">
+
+<div>
+
+<strong>${esc(x.description)}</strong>
+
+<small>${esc(x.date)}</small>
+
+</div>
+
+<div class="amount minus">
+−${money(x.amount)}
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay gastos del auto.</div>`;
+
+}
+
+
+
+function renderStats(){
+
+const key=monthKey();
+
+const expenses=data.expenses.filter(
+x=>String(x.date).slice(0,7)===key
+);
+
+const total=expenses.reduce(
+(s,x)=>s+Number(x.amount||0),0
+);
+
+document.getElementById("statExpense").textContent=
+money(total);
+
+document.getElementById("statMoves").textContent=
+data.income.length+data.expenses.length;
+
+
+const map={};
+
+expenses.forEach(x=>{
+const cat=x.category||"Otros";
+map[cat]=(map[cat]||0)+Number(x.amount||0);
+});
+
+const rows=Object.entries(map)
+.sort((a,b)=>b[1]-a[1]);
+
+
+document.getElementById("categories").innerHTML=
+rows.length
+?rows.map(([cat,value])=>`
+
+<div class="categoryLine">
+
+<span>${esc(cat)}</span>
+
+<b>${money(value)}</b>
+
+</div>
+
+`).join("")
+:`<div class="empty">Todavía no hay gastos este mes.</div>`;
+
+}
+
+
+
+function productForm(){
+
+openModal(
+"Agregar producto",
+`
+
+<label>Producto</label>
+<input id="pName" placeholder="Ej. Yerba">
+
+<label>Presentación</label>
+<input id="pUnit" placeholder="Ej. 1 kg">
+
+<label>Marca / lugar</label>
+<input id="pStore" placeholder="Ej. Coto">
+
+<label>Precio</label>
+<input id="pPrice" type="number">
+
+<button class="submit" onclick="saveProduct()">
+Guardar producto
+</button>
+`
+);
+
+}
+
+
+function saveProduct(){
+
+const name=document.getElementById("pName").value.trim();
+
+const price=Number(
+document.getElementById("pPrice").value
+);
+
+if(!name||price<=0){
+
+toast("Completá producto y precio");
+
+return;
+
+}
+
+data.products.push({
+id:makeId(),
+name,
+unit:document.getElementById("pUnit").value.trim(),
+store:document.getElementById("pStore").value.trim(),
+price,
+updated:today(),
+history:[
+{
+price,
+date:today()
+}
+]
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Producto guardado");
+
+}
+
+
+
+function renderPrices(){
+
+document.getElementById("products").innerHTML=
+data.products.length
+?data.products.map(p=>`
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>${esc(p.name)}</strong>
+
+<div class="mini">
+${esc(p.unit||"")}
+${p.store?" · "+esc(p.store):""}
+</div>
+
+</div>
+
+<div class="productPrice">
+${money(p.price)}
+</div>
+
+</div>
+
+<div class="mini">
+Actualizado ${esc(p.updated||"")}
+</div>
+
+<div class="actions">
+
+<button onclick="updateProduct('${p.id}')">
+Actualizar
+</button>
+
+<button onclick="addShopping('${p.id}')">
+＋ Compra
+</button>
+
+<button onclick="deleteItem('products','${p.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:`<div class="empty">No hay productos cargados.</div>`;
+
+
+const total=data.shopping.reduce(
+(s,x)=>s+Number(x.price||0)*Number(x.qty||1),
+0
+);
+
+document.getElementById("shoppingTotal").textContent=
+money(total);
+
+
+document.getElementById("shopping").innerHTML=
+data.shopping.length
+?data.shopping.map(x=>`
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>${esc(x.name)}</strong>
+
+<div class="mini">
+${x.qty} × ${money(x.price)}
+</div>
+
+</div>
+
+<b>
+${money(Number(x.price)*Number(x.qty))}
+</b>
+
+</div>
+
+<button
+class="wide"
+onclick="removeShopping('${x.id}')">
+Quitar
+</button>
+
+</div>
+
+`).join("")
+:`<div class="empty">La lista de compras está vacía.</div>`;
+
+}
+
+
+
+function updateProduct(id){
+
+const p=data.products.find(x=>x.id===id);
+
+if(!p)return;
+
+openModal(
+"Actualizar precio",
+`
+
+<p>
+<strong>${esc(p.name)}</strong>
+</p>
+
+<label>Nuevo precio</label>
+
+<input id="newPrice" type="number" value="${Number(p.price)}">
+
+<button class="submit" onclick="saveProductUpdate('${id}')">
+Actualizar precio
+</button>
+`
+);
+
+}
+
+
+function saveProductUpdate(id){
+
+const p=data.products.find(x=>x.id===id);
+
+if(!p)return;
+
+const price=Number(
+document.getElementById("newPrice").value
+);
+
+if(price<=0){
+
+toast("Precio inválido");
+
+return;
+
+}
+
+p.price=price;
+
+p.updated=today();
+
+if(!Array.isArray(p.history))
+p.history=[];
+
+p.history.push({
+price,
+date:today()
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Precio actualizado");
+
+}
+
+
+
+function addShopping(id){
+
+const p=data.products.find(x=>x.id===id);
+
+if(!p)return;
+
+const existing=data.shopping.find(
+x=>x.productId===id
+);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+data.shopping.push({
+id:makeId(),
+productId:id,
+name:p.name,
+price:p.price,
+qty:1
+});
+
+}
+
+save();
+
+render();
+
+toast("Agregado a compras");
+
+}
+
+
+function removeShopping(id){
+
+data.shopping=
+data.shopping.filter(x=>x.id!==id);
+
+save();
+
+render();
+
+}
+
+
+
+function ticketImage(event){
+
+const file=event.target.files?.[0];
+
+if(!file)return;
+
+const reader=new FileReader();
+
+reader.onload=e=>{
+
+document.getElementById("ticketImageResult").innerHTML=`
+
+<img
+class="preview"
+src="${e.target.result}"
+alt="Ticket">
+
+<button
+class="wide"
+onclick="ticketToExpense()">
+＋ Convertir ticket en gasto
+</button>
+
+`;
+
+window.currentTicketImage=e.target.result;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+function ticketToExpense(){
+
+openModal(
+"Registrar ticket como gasto",
+`
+
+<label>Comercio</label>
+<input id="tName" placeholder="Ej. Carrefour">
+
+<label>Importe total</label>
+<input id="tAmount" type="number">
+
+<label>Categoría</label>
+
+<select id="tCategory">
+
+${CATEGORIES.map(c=>
+`<option>${esc(c)}</option>`
+).join("")}
+
+</select>
+
+<label>Fecha</label>
+<input id="tDate" type="date" value="${today()}">
+
+<button class="submit" onclick="saveTicketExpense()">
+Guardar gasto
+</button>
+`
+);
+
+}
+
+
+function saveTicketExpense(){
+
+const name=document.getElementById("tName").value.trim();
+
+const amount=Number(
+document.getElementById("tAmount").value
+);
+
+if(!name||amount<=0){
+
+toast("Completá comercio e importe");
+
+return;
+
+}
+
+data.expenses.unshift({
+id:makeId(),
+description:name,
+amount,
+category:document.getElementById("tCategory").value,
+date:document.getElementById("tDate").value||today(),
+note:"Ticket cargado"
+});
+
+save();
+
+closeModal();
+
+render();
+
+toast("Ticket convertido en gasto");
+
+}
+
 
 
 function ticketPDF(event){
 
-const file=event.target.files[0];
+const file=event.target.files?.[0];
 
 if(!file)return;
 
-document.getElementById("ticketResult").innerHTML=`
+document.getElementById("ticketPdfResult").innerHTML=`
 
-<div class="card">
+<div class="fileBox">
 
-<b>PDF cargado correctamente</b>
+<strong>📄 ${esc(file.name)}</strong>
 
-<p>${esc(file.name)}</p>
+<div class="mini">
+${Math.round(file.size/1024)} KB
+</div>
 
-<button class="wide"
-onclick="movement('expense')">
-💰 Crear gasto
+<button
+class="wide"
+onclick="ticketToExpense()">
+＋ Registrar como gasto
 </button>
 
 </div>
+
 `;
+
+window.currentTicketPDF=file;
+
+toast("PDF cargado");
+
 }
 
 
-/* EXPORTAR */
 
 function exportData(){
 
@@ -1486,599 +3173,136 @@ const url=URL.createObjectURL(blob);
 const a=document.createElement("a");
 
 a.href=url;
-a.download="mis-finanzas-respaldo.json";
+
+a.download=
+"mis-finanzas-backup-"+today()+".json";
+
+document.body.appendChild(a);
 
 a.click();
 
+a.remove();
+
 URL.revokeObjectURL(url);
+
+toast("Respaldo exportado");
+
 }
+
 
 
 function importData(event){
 
-const file=event.target.files[0];
+const file=event.target.files?.[0];
 
 if(!file)return;
 
 const reader=new FileReader();
 
-reader.onload=()=>{
+reader.onload=e=>{
 
 try{
 
-data=normalize(
-JSON.parse(reader.result)
-);
+const imported=JSON.parse(e.target.result);
+
+data=merge(clone(DEFAULT),imported);
 
 save();
 
-}catch(e){
+render();
 
-alert("Archivo inválido");
+toast("Datos importados correctamente");
+
+}catch(err){
+
+toast("El archivo no es válido");
 
 }
 
 };
 
 reader.readAsText(file);
+
 }
+
 
 
 function clearData(){
 
 if(!confirm(
-"¿Seguro que querés borrar todos los datos?"
+"Esto eliminará todos los datos guardados. ¿Continuar?"
 ))return;
+
+localStorage.removeItem(KEY);
 
 data=clone(DEFAULT);
 
 save();
 
-screen("home");
+render();
+
+toast("Datos eliminados");
+
 }
 
 
-/* RENDER */
+
+function deleteItem(collection,id){
+
+if(!data[collection])return;
+
+if(!confirm("¿Eliminar este elemento?"))return;
+
+data[collection]=
+data[collection].filter(x=>x.id!==id);
+
+save();
+
+render();
+
+toast("Eliminado");
+
+}
+
+
 
 function render(){
 
-const income=
-data.income.reduce(
-(s,x)=>s+Number(x.amount||0),0
-);
-
-const expense=
-data.expenses.reduce(
-(s,x)=>s+Number(x.amount||0),0
-);
-
-document.getElementById("incomeTotal")
-.textContent=money(income);
-
-document.getElementById("expenseTotal")
-.textContent=money(expense);
-
-document.getElementById("balance")
-.textContent=money(income-expense);
-
-document.getElementById("movIncome")
-.textContent=money(income);
-
-document.getElementById("movExpense")
-.textContent=money(expense);
-
-
-/* MOVIMIENTOS */
-
-const movements=[
-
-...data.income.map(x=>({...x,type:"income"})),
-
-...data.expenses.map(x=>({...x,type:"expense"}))
-
-].sort((a,b)=>
-String(b.date).localeCompare(String(a.date))
-);
-
-const html=movements.length
-?movements.map(x=>`
-
-<div class="movement">
-
-<div>
-
-<b>${esc(x.description)}</b>
-
-<small>
-${esc(x.date)} · ${esc(x.category)}
-</small>
-
-</div>
-
-<div>
-
-<b class="amount ${x.type==="income"?"plus":"minus"}">
-${x.type==="income"?"+":"-"}${money(x.amount)}
-</b>
-
-<br>
-
-<button class="icon"
-onclick='editMovement(${JSON.stringify(x.id)},"${x.type}")'>
-✏️
-</button>
-
-<button class="icon"
-onclick='deleteMovement(${JSON.stringify(x.id)},"${x.type}")'>
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("")
-:`<div class="empty">No hay movimientos.</div>`;
-
-document.getElementById("recent").innerHTML=
-movements.slice(0,5).map(x=>`
-
-<div class="movement">
-
-<div>
-<b>${esc(x.description)}</b>
-<small>${esc(x.date)}</small>
-</div>
-
-<b class="amount ${x.type==="income"?"plus":"minus"}">
-${x.type==="income"?"+":"-"}${money(x.amount)}
-</b>
-
-</div>
-
-`).join("")||`<div class="empty">No hay movimientos.</div>`;
-
-document.getElementById("allMovements").innerHTML=html;
-
-
-/* TARJETAS */
-
-document.getElementById("cardsList").innerHTML=
-data.cards.length
-?data.cards.map(c=>`
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(c.name)}</b>
-<small style="display:block">
-•••• ${esc(c.last4||"----")}
-</small>
-</div>
-
-<div>
-<button class="icon"
-onclick='cardForm(${JSON.stringify(c)})'>✏️</button>
-
-<button class="icon"
-onclick='deleteCard(${JSON.stringify(c.id)})'>🗑️</button>
-</div>
-
-</div>
-
-<button class="wide"
-onclick="summaryForm()">
-＋ Cargar resumen
-</button>
-
-</div>
-
-`).join("")
-:`<div class="empty">No hay tarjetas.</div>`;
-
-
-document.getElementById("summaries").innerHTML=
-data.summaries.map(s=>{
-
-const c=data.cards.find(x=>x.id===s.cardId);
-
-return `
-
-<div class="card">
-
-<div class="row">
-
-<b>${esc(c?.name||"Tarjeta")}</b>
-
-<b>${money(s.total)}</b>
-
-</div>
-
-<small>
-${esc(s.period||"")}
-· vence ${esc(s.due||"—")}
-</small>
-
-${s.installments
-?`<p>${esc(s.installments)}</p>`:""}
-
-</div>
-`;
-
-}).join("")||
-`<div class="empty">No hay resúmenes.</div>`;
-
-
-/* CUOTAS */
-
-const debt=
-data.summaries.reduce(
-(s,x)=>s+Number(x.total||0),0
-);
-
-document.getElementById("installmentTotal")
-.textContent=money(debt);
-
-document.getElementById("installmentList").innerHTML=
-data.summaries.map(s=>`
-
-<div class="card">
-
-<div class="row">
-<span>${esc(s.period||"Resumen")}</span>
-<b>${money(s.total)}</b>
-</div>
-
-<small>
-${esc(s.installments||"Sin detalle")}
-</small>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay cuotas.</div>`;
-
-
-/* PRESUPUESTO */
-
-const month=today().slice(0,7);
-
-const mi=
-data.income
-.filter(x=>String(x.date).startsWith(month))
-.reduce((s,x)=>s+Number(x.amount||0),0);
-
-const me=
-data.expenses
-.filter(x=>String(x.date).startsWith(month))
-.reduce((s,x)=>s+Number(x.amount||0),0);
-
-const limit=Number(data.budget.limit)||0;
-
-document.getElementById("budgetIncome").textContent=money(mi);
-document.getElementById("budgetSpent").textContent=money(me);
-document.getElementById("budgetAvailable").textContent=money(mi-me);
-document.getElementById("budgetLimit").textContent=money(limit);
-
-const pct=limit?Math.min(100,me/limit*100):0;
-
-document.getElementById("budgetBar").style.width=pct+"%";
-
-document.getElementById("budgetText").textContent=
-limit
-?`Utilizado ${Math.round(pct)}% del presupuesto.`
-:"No configuraste un presupuesto.";
-
-
-document.getElementById("fixedList").innerHTML=
-data.fixed.map(x=>`
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(x.description)}</b>
-<small style="display:block">${esc(x.category)}</small>
-</div>
-
-<div>
-<b>${money(x.amount)}</b>
-<button class="icon"
-onclick='deleteFixed(${JSON.stringify(x.id)})'>
-🗑️
-</button>
-</div>
-
-</div>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay gastos fijos.</div>`;
-
-
-/* RECURRENTES */
-
-document.getElementById("recurringList").innerHTML=
-data.recurring.map(x=>`
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(x.description)}</b>
-<small style="display:block">
-Día ${x.day} ·
-${x.type==="income"?"Ingreso":"Gasto"}
-</small>
-</div>
-
-<b>${money(x.amount)}</b>
-
-</div>
-
-<button class="wide"
-onclick='deleteRecurring(${JSON.stringify(x.id)})'>
-🗑️ Eliminar
-</button>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay recurrentes.</div>`;
-
-
-/* RECORDATORIOS */
-
-document.getElementById("reminderCount")
-.textContent=
-data.reminders.filter(x=>!x.done).length;
-
-document.getElementById("reminderList").innerHTML=
-data.reminders.map(x=>`
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(x.description)}</b>
-<small style="display:block">${esc(x.date)}</small>
-</div>
-
-<div>
-
-<button class="icon"
-onclick='toggleReminder(${JSON.stringify(x.id)})'>
-${x.done?"↩":"✓"}
-</button>
-
-<button class="icon"
-onclick='deleteReminder(${JSON.stringify(x.id)})'>
-🗑️
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay recordatorios.</div>`;
-
-
-/* AUTO */
-
-const car=data.car;
-
-document.getElementById("carName")
-.textContent=car.name||"Sin configurar";
-
-document.getElementById("carPlate")
-.textContent=car.plate||"—";
-
-document.getElementById("carKm")
-.textContent=car.km||"—";
-
-const carExpenses=
-data.expenses.filter(x=>x.category==="Auto");
-
-const fuel=
-carExpenses
-.filter(x=>x.carType==="Combustible")
-.reduce((s,x)=>s+Number(x.amount||0),0);
-
-document.getElementById("carExpenses").innerHTML=
-carExpenses.map(x=>`
-
-<div class="movement">
-
-<div>
-<b>${esc(x.carType||x.description)}</b>
-<small>
-${esc(x.date)}
-${x.km?" · "+esc(x.km)+" km":""}
-</small>
-</div>
-
-<b class="amount minus">
--${money(x.amount)}
-</b>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay gastos del auto.</div>`;
-
-const deadlines=[];
-
-if(car.insuranceExpiry)
-deadlines.push(["Seguro",car.insuranceExpiry]);
-
-if(car.vtvExpiry)
-deadlines.push(["VTV",car.vtvExpiry]);
-
-if(car.licenseExpiry)
-deadlines.push(["Licencia",car.licenseExpiry]);
-
-document.getElementById("carDeadlines").innerHTML=
-deadlines.map(x=>`
-
-<div class="card">
-
-<div class="row">
-<span>${x[0]}</span>
-<b>${x[1]}</b>
-</div>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay vencimientos cargados.</div>`;
-
-
-/* ESTADÍSTICAS */
-
-document.getElementById("statExpense")
-.textContent=money(me);
-
-document.getElementById("statMoves")
-.textContent=
-data.income.length+
-data.expenses.length;
-
-const cats={};
-
-data.expenses
-.filter(x=>String(x.date).startsWith(month))
-.forEach(x=>{
-
-const c=x.category||"Otros";
-
-cats[c]=(cats[c]||0)+Number(x.amount||0);
-
-});
-
-document.getElementById("categories").innerHTML=
-Object.entries(cats)
-.sort((a,b)=>b[1]-a[1])
-.map(x=>`
-
-<div class="card">
-
-<div class="row">
-<span>${esc(x[0])}</span>
-<b>${money(x[1])}</b>
-</div>
-
-<div class="bar">
-<i style="width:${me?Math.min(100,x[1]/me*100):0}%"></i>
-</div>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay gastos este mes.</div>`;
-
-
-/* PRODUCTOS */
-
-document.getElementById("products").innerHTML=
-data.products.map(p=>`
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(p.name)}</b>
-<small style="display:block">
-${esc(p.detail||"")}
-${p.store?" · "+esc(p.store):""}
-</small>
-</div>
-
-<b>${money(p.price)}</b>
-
-</div>
-
-<div class="actions">
-
-<button onclick='addShopping(${JSON.stringify(p.id)})'>
-＋ Lista
-</button>
-
-<button onclick='productForm(${JSON.stringify(p)})'>
-✏️
-</button>
-
-<button onclick='deleteProduct(${JSON.stringify(p.id)})'>
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("")||
-`<div class="empty">No hay productos.</div>`;
-
-
-let shoppingTotal=0;
-
-document.getElementById("shopping").innerHTML=
-data.shopping.map(x=>{
-
-const p=data.products.find(y=>y.id===x.productId);
-
-if(!p)return"";
-
-const subtotal=
-Number(p.price||0)*
-Number(x.quantity||1);
-
-shoppingTotal+=subtotal;
-
-return `
-
-<div class="card">
-
-<div class="row">
-
-<div>
-<b>${esc(p.name)}</b>
-<small style="display:block">
-${x.quantity} × ${money(p.price)}
-</small>
-</div>
-
-<b>${money(subtotal)}</b>
-
-</div>
-
-<button class="wide"
-onclick='removeShopping(${JSON.stringify(x.id)})'>
-Quitar una unidad
-</button>
-
-</div>
-`;
-
-}).join("")||
-`<div class="empty">Lista vacía.</div>`;
-
-document.getElementById("shoppingTotal")
-.textContent=money(shoppingTotal);
+renderHome();
+renderMovements();
+renderCards();
+renderInstallments();
+renderBudget();
+renderRecurring();
+renderReminders();
+renderCar();
+renderStats();
+renderPrices();
 
 }
 
 
-/* ARRANQUE */
+document.addEventListener(
+"keydown",
+e=>{
+
+if(e.key==="Escape"){
+closeModal();
+}
+
+}
+);
+
+
+document.getElementById("modal")
+.addEventListener("click",e=>{
+
+if(e.target.id==="modal"){
+closeModal();
+}
+
+});
+
 
 render();
 
